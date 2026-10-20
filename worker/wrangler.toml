@@ -1,0 +1,41 @@
+# Landlord register reminders Worker. PLACEHOLDERS ONLY: no real IDs, keys or addresses are in this file.
+# See README.md for the switch-on steps. Secrets (RESEND_API_KEY) are set with `wrangler secret put`, never here.
+name = "landlord-reminders"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+workers_dev = true
+
+[vars]
+# Kill switch. While "false", POST /subscribe answers 503 and stores nothing.
+REMINDERS_LIVE = "false"
+# The only origin allowed to call POST /subscribe (no trailing slash).
+ALLOWED_ORIGIN = "https://aleborini.github.io"
+# Public base URL of this Worker, used in confirm/unsubscribe links (no trailing slash).
+PUBLIC_URL = "https://landlord-reminders.REPLACE_ME.workers.dev"
+# Where the confirm/unsubscribe pages link back to.
+SITE_URL = "https://aleborini.github.io/GrokLandlord/"
+# Sender on a domain verified in Resend, e.g. "Landlord Register Reminders <reminders@REPLACE_ME>".
+FROM_EMAIL = "Landlord Register Reminders <reminders@REPLACE_ME.example>"
+# Optional reply-to (the contact email, once there is one). Leave empty for none.
+REPLY_TO = ""
+# Abuse/quota guards. Resend free plan: 100 emails/day, 3,000/month.
+DAILY_CONFIRM_CAP = "50"
+MAX_SENDS_PER_RUN = "40"
+SEND_DELAY_MS = "600"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "landlord-reminders"
+database_id = "00000000-0000-0000-0000-000000000000" # REPLACE_ME with the id printed by `wrangler d1 create`
+migrations_dir = "migrations"
+
+# Per-IP limit on POST /subscribe (Workers Rate Limiting binding, free). The IP is used as a key only, never stored.
+[[ratelimits]]
+name = "SUBSCRIBE_LIMITER"
+namespace_id = "1001"
+simple = { limit = 5, period = 60 }
+
+# Daily send window: 08:00, 09:00, 10:00 and 11:00 UTC (09:00-12:00 UK summer time, 08:00-11:00 winter).
+# Each run sends at most MAX_SENDS_PER_RUN; a reminder is never sent twice, so later runs only pick up the rest.
+[triggers]
+crons = ["0 8-11 * * *"]

@@ -1,0 +1,38 @@
+    <section class="section card" id="reminders" aria-labelledby="rm-h">
+      <h2 id="rm-h" class="tk-form-title">Free email reminders</h2>
+      <p>Get up to four short emails for your property’s region: a week before the window opens, when it opens, and 30 and 7 days before the deadline. Free, and you can unsubscribe in one click.</p>
+      <form class="rm-form" id="rm-form" novalidate data-endpoint="{{ENDPOINT}}">
+        <div class="tk-row">
+          <div class="tk-field">
+            <label for="rm-email">Email address</label>
+            <input id="rm-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" required aria-describedby="rm-email-err" />
+            <p class="rm-err" id="rm-email-err"></p>
+          </div>
+          <div class="tk-field">
+            <label for="rm-region">Region of the rental property</label>
+            <select id="rm-region" name="region" required aria-describedby="rm-region-err">
+              <option value="">Choose a region</option>
+{{REGION_OPTIONS}}
+            </select>
+            <p class="rm-err" id="rm-region-err"></p>
+          </div>
+        </div>
+        <div class="rm-hp" aria-hidden="true">
+          <label for="rm-website">Leave this empty</label>
+          <input id="rm-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <div>
+          <label class="tk-check rm-consent" for="rm-consent">
+            <input id="rm-consent" name="consent" type="checkbox" required aria-describedby="rm-consent-err" />
+            <span>I agree to get reminder emails about the landlord register for the region I chose. I can unsubscribe from any email, which deletes my email address.</span>
+          </label>
+          <p class="rm-err" id="rm-consent-err"></p>
+        </div>
+        <p class="rm-small">We keep only your email address, region and sign-up dates, and delete them after your region’s deadline. See the <a href="{{PRIVACY_HREF}}">privacy notice</a>. This is an independent service, not affiliated with the UK government. Register only at <a href="https://www.gov.uk/government/news/stronger-protections-and-greater-confidence-for-renters" target="_blank" rel="noopener">gov.uk</a>.</p>
+        <div class="tk-form-actions">
+          <button class="btn" type="submit" id="rm-submit">Send me reminders</button>
+        </div>
+        <p class="rm-status" id="rm-status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
