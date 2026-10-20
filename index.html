@@ -5,7 +5,7 @@
     <meta name="google-site-verification" content="yG7nudlYRdJyO4dOfhEAPFRUHk_4l7CtLF1yjLC_NiQ" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- TODO: replace https://aleborini.github.io/GrokLandlord/ with the real site origin in: this file (og/twitter/canonical/JSON-LD), robots.txt, sitemap.xml -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.postcodes.io; script-src 'self' 'sha256-Te055Js/YFUVWYTeWsQYdmp4GdlPm+goegXWk6FsF7E='; style-src 'self' 'sha256-2sYqewmfcfnbyiMlDH3cX+HWMW9CmQE83qtrQExI0zc='; img-src 'self' data:; base-uri 'none'; form-action 'none'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.postcodes.io; script-src 'self' 'sha256-Te055Js/YFUVWYTeWsQYdmp4GdlPm+goegXWk6FsF7E='; style-src 'self' 'sha256-VgqoWqdDOFMJNIOhK7YrP7Dwv+Iij67KH5nD4hFKwAU='; img-src 'self' data:; base-uri 'none'; form-action 'none'" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>England Landlord Register Deadlines – Unofficial Checker</title>
   <meta name="description" content="Unofficial checker for England landlord register deadlines by postcode or region. Fee, checklist and windows. Not government — register only at gov.uk." />
@@ -360,6 +360,82 @@
     .unofficial-line { margin: -6px 0 6px; font-size: 0.8rem; line-height: 1.4; color: #a9b8cd; }
     .unofficial-line a { color: #c9d5e5; text-decoration: underline; text-underline-offset: 2px; }
     .unofficial-line a:hover { color: #fff; }
+
+    /* Certificate tracker */
+    .pdf-cta h2 { margin: 0 0 4px; font-size: 1.15rem; }
+    .btn-sm { padding: 8px 14px; font-size: 0.92rem; border-radius: 10px; min-height: 40px; }
+    .btn-danger { color: var(--err-ink); }
+    .btn-danger:hover { background: var(--err-50); color: var(--err-ink); }
+    .tk-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 18px; }
+    .tk-file-input:focus-visible + label { outline: 3px solid var(--teal-300); outline-offset: 2px; }
+    .tk-form-title, .tk-sec-title { font-size: 1.3rem; letter-spacing: -0.01em; margin: 0 0 6px; }
+    .tk-top .callout { margin-top: 0; }
+    .tk-summary { margin: 12px 0 0; font-weight: 700; color: var(--navy-700); }
+    .tk-form fieldset { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px 16px; margin: 0 0 14px; }
+    .tk-form legend { font-weight: 800; padding: 0 6px; }
+    .tk-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; }
+    .tk-field label { display: block; font-weight: 600; font-size: 0.93rem; margin-bottom: 4px; }
+    .tk-field input, .tk-field select, .tk-field textarea {
+      width: 100%; font: inherit; color: var(--ink); background: #fff; border: 1px solid #8e9bb0; border-radius: 10px;
+      padding: 9px 12px; min-height: 44px;
+    }
+    .tk-field textarea { min-height: 84px; resize: vertical; }
+    .tk-field input:disabled { background: #eef1f6; color: #4a5873; }
+    .tk-field input[aria-invalid="true"] { border-color: var(--err-ink); }
+    .tk-hint { font-size: 0.86rem; color: var(--muted); margin: 6px 0 0; }
+    .tk-check { display: flex; gap: 8px; align-items: center; margin: 0 0 10px; font-size: 0.93rem; }
+    .tk-check input { width: 20px; height: 20px; accent-color: var(--teal); }
+    .tk-form-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .st { display: inline-block; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.02em; padding: 3px 10px; border-radius: 999px; border: 1px solid; white-space: nowrap; }
+    .st-ok { background: #e7f6ee; color: #0b5a36; border-color: #9fd8b9; }
+    .st-soon { background: var(--amber-50); color: var(--amber-ink); border-color: var(--amber-line); }
+    .st-over { background: var(--err-50); color: var(--err-ink); border-color: var(--err-line); }
+    .st-miss { background: #eef1f6; color: #3d4a60; border-color: #8e9bb0; border-style: dashed; }
+    .st-na { background: #f3f4f6; color: #4a5873; border-color: #d4d9e2; }
+    .tk-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+    .tk-prop { padding: 22px; }
+    .tk-prop-head { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+    .tk-prop h3 { margin: 0; font-size: 1.15rem; letter-spacing: -0.01em; }
+    .tk-prop h3:focus { outline: none; }
+    .tk-prop h3:focus-visible { outline: 3px solid var(--teal-300); }
+    .tk-pc { margin: 2px 0 0; color: var(--muted); font-size: 0.9rem; }
+    .tk-acts { display: flex; gap: 8px; }
+    .tk-items { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+    .tk-item { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; background: #fbfcfe; display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+    .tk-item.tk-over { border-color: var(--err-line); }
+    .tk-item.tk-soon { border-color: var(--amber-line); }
+    .tk-item .k { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; color: var(--muted); }
+    .tk-item .v { font-weight: 700; font-size: 0.95rem; }
+    .tk-item .s, .tk-up-row .s { font-size: 0.84rem; color: var(--muted); }
+    .tk-notes { margin: 14px 0 0; font-size: 0.93rem; white-space: pre-wrap; }
+    .tk-up { list-style: none; margin: 0; padding: 0; }
+    .tk-up-row { display: grid; grid-template-columns: 9.5rem 1fr auto; gap: 6px 14px; align-items: center; padding: 12px 0; border-top: 1px solid var(--line); }
+    .tk-up-row:first-child { border-top: 0; }
+    .tk-up-row .d { font-weight: 800; font-variant-numeric: tabular-nums; }
+    .tk-up-row .t { min-width: 0; }
+    .tk-up-row .s { display: block; }
+    .tk-empty { color: var(--muted); margin: 0; }
+    .print-only { display: none; }
+    @media (max-width: 860px) { .tk-items { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 600px) {
+      .tk-items, .tk-row { grid-template-columns: 1fr; }
+      .tk-up-row { grid-template-columns: 1fr auto; }
+      .tk-up-row .d { grid-column: 1 / -1; }
+      .tk-bar .btn { flex: 1 1 100%; }
+      .tk-bar .btn-ghost { flex: 1 1 calc(50% - 5px); padding: 12px 10px; font-size: 0.95rem; }
+    }
+    @media print {
+      body { background: #fff; font-size: 12pt; }
+      .hero, .tk-noprint, #tk-form-wrap, .foot-grid, .foot-bottom, .tk-howto { display: none !important; }
+      main { margin-top: 0; }
+      .card { box-shadow: none; border-color: #999; padding: 12px; break-inside: avoid; }
+      .print-only { display: block; }
+      footer.site { background: #fff; color: #000; margin-top: 16px; padding: 0; }
+      .foot-notice { background: #fff; color: #000; border-color: #999; }
+      .foot-notice a { color: #000; }
+      .tk-items { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .st { border-width: 1.5px; }
+    }
   </style>
   <script type="application/ld+json">
 {
@@ -662,6 +738,16 @@
       </ul>
     </section>
 
+    <section class="section" aria-labelledby="tracker-h">
+      <div class="pdf-cta">
+        <div>
+          <h2 id="tracker-h">Free certificate tracker</h2>
+          <p>Keep gas safety, EICR, EPC and deposit dates for each property in one place, see what is due soon and add reminders to your calendar. Saved only in your browser.</p>
+        </div>
+        <a class="btn" href="tracker/">Open the certificate tracker</a>
+      </div>
+    </section>
+
     <section class="section" aria-labelledby="faq-h">
       <div class="section-head">
         <span class="eyebrow">FAQ</span>
@@ -734,6 +820,7 @@
           <ul class="foot-nav">
             <li><a href="">Home: postcode checker</a></li>
             <li><a href="#regions">Deadlines by region</a></li>
+            <li><a href="tracker/">Free certificate tracker</a></li>
             <li><a href="about/">About this site</a></li>
             <li><a href="privacy/">Privacy</a></li>
           </ul>

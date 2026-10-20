@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; script-src 'self' 'sha256-EuRFhk9OCr4AYimfMTxS3X99wBpKI1zaYbBKH/21qUA='; style-src 'self' 'sha256-VgqoWqdDOFMJNIOhK7YrP7Dwv+Iij67KH5nD4hFKwAU='; img-src 'self' data:; base-uri 'none'; form-action 'none'" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>Free Landlord Certificate Tracker: Gas, EICR, EPC (Unofficial)</title>
+  <meta name="description" content="Free, unofficial tracker for landlords in England. Record gas safety, EICR, EPC and deposit dates, see what is due and export calendar reminders. Saved only in your browser." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://aleborini.github.io/GrokLandlord/tracker/" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Landlord Register Deadline Checker (unofficial)" />
+  <meta property="og:title" content="Free Landlord Certificate Tracker: Gas, EICR, EPC (Unofficial)" />
+  <meta property="og:description" content="Free, unofficial tracker for landlords in England. Record gas safety, EICR, EPC and deposit dates, see what is due and export calendar reminders. Saved only in your browser." />
+  <meta property="og:url" content="https://aleborini.github.io/GrokLandlord/tracker/" />
+  <meta property="og:image" content="https://aleborini.github.io/GrokLandlord/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en_GB" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Free Landlord Certificate Tracker: Gas, EICR, EPC (Unofficial)" />
+  <meta name="twitter:description" content="Free, unofficial tracker for landlords in England. Record gas safety, EICR, EPC and deposit dates, see what is due and export calendar reminders. Saved only in your browser." />
+  <meta name="twitter:image" content="https://aleborini.github.io/GrokLandlord/og-image.png" />
+  <style>
+    :root {
+      --navy-900: #0a1a33;
+      --navy-800: #0f2747;
+      --navy-700: #16355f;
+      --ink: #0f1d33;
+      --muted: #4a5873;
+      --line: #e3e8f0;
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --teal: #0f766e;
+      --teal-600: #0d8f84;
+      --teal-300: #5eead4;
+      --teal-50: #ecfdf9;
+      --amber-50: #fff7e6;
+      --amber-line: #f2c46d;
+      --amber-ink: #6b4400;
+      --err-50: #fdeeee;
+      --err-line: #f0b4b4;
+      --err-ink: #8a1f1f;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --shadow-sm: 0 1px 2px rgba(15, 29, 51, 0.06);
+      --shadow: 0 1px 2px rgba(15, 29, 51, 0.05), 0 8px 24px -6px rgba(15, 29, 51, 0.12);
+      --shadow-lg: 0 2px 4px rgba(15, 29, 51, 0.06), 0 24px 48px -12px rgba(15, 29, 51, 0.25);
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+      --ease: cubic-bezier(.2, .7, .2, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.6;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--teal); text-underline-offset: 2px; }
+    a:hover { color: var(--navy-700); }
+    :focus-visible { outline: 3px solid var(--teal-300); outline-offset: 2px; border-radius: 6px; }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+    .hidden { display: none !important; }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+
+    /* Top bar + hero */
+    .hero {
+      background:
+        radial-gradient(900px 400px at 85% -10%, rgba(94, 234, 212, 0.18), transparent 60%),
+        radial-gradient(700px 360px at -10% 110%, rgba(56, 120, 220, 0.25), transparent 60%),
+        linear-gradient(180deg, var(--navy-900), var(--navy-800));
+      color: #fff;
+      padding-bottom: 72px;
+    }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 0; }
+    .brand { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; font-weight: 700; letter-spacing: -0.01em; }
+    .brand:hover { color: #fff; }
+    .brand-mark {
+      width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center;
+      background: linear-gradient(135deg, var(--teal-600), #2563eb);
+      box-shadow: 0 6px 16px -6px rgba(13, 143, 132, 0.8);
+    }
+    .pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.02em;
+      color: #d5f5ef; background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.16);
+      padding: 5px 11px; border-radius: 999px;
+    }
+    .pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal-300); }
+    .hero-inner { padding-top: 36px; max-width: 760px; }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.1rem);
+      line-height: 1.1; letter-spacing: -0.03em; margin: 16px 0 14px; font-weight: 800;
+    }
+    .hero h1 .accent { color: var(--teal-300); }
+    .hero .sub { font-size: clamp(1.02rem, 2.2vw, 1.18rem); color: #c9d5e8; margin: 0 0 28px; max-width: 640px; }
+
+    .search {
+      background: #fff; color: var(--ink);
+      border-radius: 18px; padding: 10px; box-shadow: var(--shadow-lg);
+      display: flex; gap: 8px; align-items: stretch;
+    }
+    .search .field { position: relative; flex: 1 1 auto; display: flex; align-items: center; }
+    .search .field svg { position: absolute; left: 14px; color: var(--muted); pointer-events: none; }
+    .search input {
+      width: 100%; border: 0; outline: 0; background: transparent;
+      font: inherit; font-size: 1.15rem; font-weight: 600; letter-spacing: 0.02em;
+      padding: 16px 14px 16px 46px; color: var(--ink); border-radius: 12px; text-transform: uppercase;
+    }
+    .search input::placeholder { color: #8391a8; font-weight: 500; text-transform: none; letter-spacing: 0; }
+    .search:focus-within { box-shadow: var(--shadow-lg), 0 0 0 4px rgba(94, 234, 212, 0.45); }
+    .search-help { color: #c9d5e8; font-size: 0.92rem; margin: 12px 4px 0; }
+    .search-help strong { color: #fff; }
+
+    .btn {
+      appearance: none; border: 0; cursor: pointer; text-decoration: none;
+      font: inherit; font-weight: 700; font-size: 1rem;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 13px 20px; border-radius: 12px;
+      background: var(--teal); color: #fff;
+      box-shadow: 0 6px 16px -8px rgba(15, 118, 110, 0.9);
+      transition: transform .15s var(--ease), background-color .15s var(--ease), box-shadow .15s var(--ease);
+    }
+    .btn:hover { background: #0b5f58; color: #fff; transform: translateY(-1px); box-shadow: 0 10px 22px -10px rgba(15, 118, 110, 0.9); }
+    .btn:active { transform: translateY(0); }
+    .btn:disabled { opacity: .7; cursor: progress; transform: none; }
+    .btn-lg { padding: 0 26px; font-size: 1.05rem; border-radius: 12px; min-height: 56px; }
+    .btn-ghost {
+      background: #fff; color: var(--navy-800); border: 1px solid var(--line); box-shadow: var(--shadow-sm);
+    }
+    .btn-ghost:hover { background: #f1f5fa; color: var(--navy-900); box-shadow: var(--shadow-sm); }
+
+    .alt-region { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; color: #c9d5e8; font-size: 0.92rem; }
+    .alt-region select {
+      font: inherit; font-size: 0.95rem; color: #fff; background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.22); border-radius: 10px; padding: 9px 12px; min-width: 210px;
+    }
+    .alt-region select option { color: var(--ink); }
+    .alt-region .btn-ghost { padding: 9px 14px; font-size: 0.92rem; }
+
+    .msg { margin-top: 14px; padding: 12px 14px; border-radius: 12px; font-size: 0.95rem; font-weight: 500; }
+    .msg.err { background: var(--err-50); border: 1px solid var(--err-line); color: var(--err-ink); }
+    .msg.info { background: var(--teal-50); border: 1px solid #a7e3d9; color: #0b4f49; }
+
+    main { margin-top: -44px; position: relative; }
+    .section { margin: 0 0 28px; }
+    .card {
+      background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: 28px;
+    }
+    .section-head { margin: 52px 0 18px; }
+    .section-head h2 { font-size: clamp(1.4rem, 3vw, 1.85rem); letter-spacing: -0.02em; margin: 0 0 6px; line-height: 1.2; }
+    .section-head p { margin: 0; color: var(--muted); max-width: 680px; }
+    .eyebrow { display: inline-block; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); margin-bottom: 6px; }
+
+    /* Result card */
+    .result { border-top: 4px solid var(--teal); animation: rise .45s var(--ease); }
+    @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    .result-top { display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; align-items: flex-start; }
+    .result-label { margin: 0; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--teal); }
+    .result-region { font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 800; letter-spacing: -0.02em; margin: 2px 0 2px; line-height: 1.15; }
+    .result-note { margin: 0; color: var(--muted); font-size: 0.93rem; }
+    .countdown-box {
+      background: linear-gradient(160deg, var(--navy-800), var(--navy-700)); color: #fff;
+      border-radius: 14px; padding: 16px 22px; min-width: 200px; text-align: right;
+    }
+    .cd-num { display: block; font-size: clamp(2.6rem, 7vw, 3.4rem); font-weight: 800; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+    .cd-label { display: block; font-size: 0.88rem; color: #c9d5e8; margin-top: 6px; }
+    .countdown-text { margin: 14px 0 0; font-weight: 600; color: var(--navy-700); }
+
+    .chips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 22px 0 0; padding: 0; list-style: none; }
+    .chip { border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; background: #fbfcfe; }
+    .chip .k { display: block; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+    .chip .v { display: block; font-size: 1.12rem; font-weight: 800; margin-top: 4px; letter-spacing: -0.01em; }
+    .chip.open { background: var(--teal-50); border-color: #a7e3d9; }
+    .chip.open .k { color: #0b5f58; }
+    .chip.deadline { background: #fff; border: 2px solid var(--navy-800); }
+
+    .timeline { margin: 26px 0 0; }
+    .timeline-title { font-size: 0.85rem; font-weight: 700; color: var(--muted); margin: 0 0 10px; }
+    .tl { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 6px; }
+    .tl li { position: relative; }
+    .tl .bar { display: block; height: 10px; border-radius: 999px; background: #e4eaf2; transition: background-color .2s var(--ease); }
+    .tl li.done .bar { background: #b7c4d6; }
+    .tl li.current .bar { background: linear-gradient(90deg, var(--teal), var(--teal-600)); box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.18); }
+    .tl .name { display: block; font-size: 0.72rem; line-height: 1.25; color: var(--muted); margin-top: 8px; }
+    .tl .when { display: block; font-size: 0.7rem; color: #66748c; }
+    .tl li.current .name { color: var(--ink); font-weight: 800; }
+    .tl li.current .when { color: var(--teal); font-weight: 700; }
+
+    .callout {
+      display: flex; gap: 12px; align-items: flex-start;
+      background: var(--teal-50); border: 1px solid #a7e3d9; color: #0b4f49;
+      border-radius: 12px; padding: 14px 16px; margin-top: 22px; font-size: 0.95rem;
+    }
+    .callout svg { flex: 0 0 auto; margin-top: 2px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .sources { font-size: 0.84rem; color: var(--muted); margin: 16px 0 0; }
+
+    /* How it works */
+    .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; list-style: none; margin: 0; padding: 0; counter-reset: step; }
+    .step { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow-sm); }
+    .step-n {
+      width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center;
+      background: var(--navy-800); color: #fff; font-weight: 800; margin-bottom: 12px;
+    }
+    .step h3 { margin: 0 0 4px; font-size: 1.05rem; }
+    .step p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+
+    /* Checklist cards */
+    .pdf-cta {
+      display: flex; flex-wrap: wrap; gap: 18px; align-items: center; justify-content: space-between;
+      background: linear-gradient(135deg, var(--navy-800), var(--navy-700)); color: #fff;
+      border-radius: var(--radius); padding: 22px 24px; margin-bottom: 18px; box-shadow: var(--shadow);
+    }
+    .pdf-cta h3 { margin: 0 0 4px; font-size: 1.15rem; }
+    .pdf-cta p { margin: 0; color: #c9d5e8; font-size: 0.93rem; max-width: 560px; }
+    .pdf-cta .btn { background: var(--teal-300); color: var(--navy-900); box-shadow: none; }
+    .pdf-cta .btn:hover { background: #99f6e4; color: var(--navy-900); }
+
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .icard {
+      background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 22px;
+      box-shadow: var(--shadow-sm); transition: box-shadow .2s var(--ease), transform .2s var(--ease), border-color .2s var(--ease);
+    }
+    .icard:hover { box-shadow: var(--shadow); transform: translateY(-2px); border-color: #cfd8e5; }
+    .icard.wide { grid-column: 1 / -1; }
+    .icard-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .icon {
+      width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; flex: 0 0 auto;
+      background: var(--teal-50); color: var(--teal);
+    }
+    .icon.navy { background: #e8eef8; color: var(--navy-700); }
+    .icon.warn { background: #fff1e6; color: #a14a00; }
+    .icard h3 { margin: 0; font-size: 1.08rem; letter-spacing: -0.01em; }
+    .icard ul { margin: 0; padding-left: 0; list-style: none; }
+    .icard li { position: relative; padding-left: 26px; margin: 8px 0; font-size: 0.96rem; }
+    .icard li::before {
+      content: ""; position: absolute; left: 0; top: 0.35em; width: 16px; height: 16px; border-radius: 50%;
+      background: var(--teal-50) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.2l2.4 2.3L12 5' fill='none' stroke='%230f766e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat;
+      border: 1px solid #a7e3d9;
+    }
+    .doc-cols { columns: 2; column-gap: 28px; }
+    .doc-cols li { break-inside: avoid; }
+    .fee-big { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin: 2px 0 2px; color: var(--navy-800); }
+    .fee-big small { font-size: 0.95rem; font-weight: 600; color: var(--muted); letter-spacing: 0; }
+
+    /* FAQ */
+    .faq { padding: 6px 24px; }
+    .faq details { border-top: 1px solid var(--line); }
+    .faq details:first-of-type { border-top: 0; }
+    .faq summary {
+      list-style: none; cursor: pointer; font-weight: 700; padding: 18px 36px 18px 0; position: relative;
+      transition: color .15s var(--ease);
+    }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after {
+      content: ""; position: absolute; right: 4px; top: 50%; width: 10px; height: 10px; margin-top: -7px;
+      border-right: 2.5px solid var(--teal); border-bottom: 2.5px solid var(--teal);
+      transform: rotate(45deg); transition: transform .2s var(--ease);
+    }
+    .faq details[open] summary::after { transform: rotate(-135deg); margin-top: -2px; }
+    .faq summary:hover { color: var(--teal); }
+    .faq details p { margin: 0 0 18px; color: var(--muted); }
+
+    /* Demand */
+    .demand { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; border-style: dashed; }
+    .demand h2 { font-size: 1.15rem; margin: 0 0 2px; }
+    .demand p { margin: 0; color: var(--muted); }
+    .choice { display: flex; gap: 10px; }
+    .choice .btn { min-width: 84px; }
+
+    /* Footer */
+    footer.site { background: var(--navy-900); color: #c9d5e8; margin-top: 64px; padding: 44px 0 32px; font-size: 0.92rem; }
+    footer.site a { color: #a7f3e6; }
+    footer.site a:hover { color: #fff; }
+    .foot-notice {
+      background: rgba(242, 196, 109, 0.12); border: 1px solid rgba(242, 196, 109, 0.5); color: #fde7b8;
+      border-radius: 12px; padding: 14px 16px; margin-bottom: 28px; font-weight: 600;
+    }
+    .foot-notice a { color: #ffe3a3; }
+    .foot-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 32px; }
+    .foot-grid h2 { color: #fff; font-size: 0.95rem; margin: 0 0 10px; letter-spacing: 0.01em; }
+    .foot-grid p { margin: 0 0 10px; }
+    .foot-grid ul { list-style: none; padding: 0; margin: 0; }
+    .foot-grid li { margin: 0 0 8px; }
+    .foot-bottom { border-top: 1px solid rgba(255,255,255,0.1); margin-top: 28px; padding-top: 18px; font-size: 0.85rem; color: #9fb0c9; display: flex; flex-wrap: wrap; gap: 8px 18px; }
+
+    @media (max-width: 860px) {
+      .tl { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 14px; }
+      .steps { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: 1fr; }
+      .foot-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .container { padding: 0 16px; }
+      .hero { padding-bottom: 60px; }
+      .hero-inner { padding-top: 18px; }
+      .search { flex-direction: column; padding: 8px; }
+      .search .btn-lg { width: 100%; }
+      .card { padding: 20px; }
+      .chips { grid-template-columns: 1fr; }
+      .countdown-box { text-align: left; width: 100%; }
+      .doc-cols { columns: 1; }
+      .demand { flex-direction: column; align-items: flex-start; }
+      .topbar .pill { display: none; }
+      .alt-region select { flex: 1 1 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+      .btn:hover, .icard:hover { transform: none; }
+    }
+
+    /* Shared sub-page + region styles */
+    .page-hero { padding-bottom: 72px; }
+    .page-hero .hero-inner { padding-top: 14px; }
+    .page-hero h1 { font-size: clamp(1.8rem, 4.4vw, 2.7rem); }
+    .crumbs { font-size: 0.88rem; color: #c9d5e8; margin: 0; }
+    .crumbs a { color: #a7f3e6; }
+    .crumbs a:hover { color: #fff; }
+    .prose p { margin: 0 0 12px; }
+    .prose h2 { font-size: 1.2rem; margin: 22px 0 8px; letter-spacing: -0.01em; }
+    .prose h2:first-child { margin-top: 0; }
+    .prose ul { margin: 0 0 12px; padding-left: 20px; }
+    .prose li { margin: 6px 0; }
+    .rgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; list-style: none; margin: 0; padding: 0; }
+    .rlink {
+      display: block; height: 100%; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px;
+      text-decoration: none; color: var(--ink); box-shadow: var(--shadow-sm);
+      transition: border-color .15s var(--ease), transform .15s var(--ease), box-shadow .15s var(--ease);
+    }
+    .rlink:hover { color: var(--ink); border-color: var(--teal); transform: translateY(-2px); box-shadow: var(--shadow); }
+    .rlink strong { display: block; font-size: 1.02rem; }
+    .rlink .rdates { display: block; color: var(--muted); font-size: 0.88rem; margin-top: 2px; }
+    .rlink .rgo { display: block; color: var(--teal); font-weight: 700; font-size: 0.85rem; margin-top: 8px; }
+    .councils { columns: 2; column-gap: 28px; margin: 0; padding-left: 20px; }
+    .councils li { break-inside: avoid; margin: 4px 0; }
+    .pager { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .static-chip-note { color: var(--muted); font-size: 0.9rem; margin: 10px 0 0; }
+    .foot-nav { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0 0 6px; padding: 0; list-style: none; }
+    .foot-nav a { font-weight: 600; }
+    .status-tag { display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; background: #fff1e6; color: #8a3d00; border: 1px solid #f2c46d; vertical-align: middle; margin-left: 6px; }
+    @media (max-width: 860px) { .rgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 600px) { .rgrid { grid-template-columns: 1fr; } .councils { columns: 1; } }
+
+    /* Subtle unofficial line (full disclaimer is in the footer) */
+    .unofficial-line { margin: -6px 0 6px; font-size: 0.8rem; line-height: 1.4; color: #a9b8cd; }
+    .unofficial-line a { color: #c9d5e5; text-decoration: underline; text-underline-offset: 2px; }
+    .unofficial-line a:hover { color: #fff; }
+
+    /* Certificate tracker */
+    .pdf-cta h2 { margin: 0 0 4px; font-size: 1.15rem; }
+    .btn-sm { padding: 8px 14px; font-size: 0.92rem; border-radius: 10px; min-height: 40px; }
+    .btn-danger { color: var(--err-ink); }
+    .btn-danger:hover { background: var(--err-50); color: var(--err-ink); }
+    .tk-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 18px; }
+    .tk-file-input:focus-visible + label { outline: 3px solid var(--teal-300); outline-offset: 2px; }
+    .tk-form-title, .tk-sec-title { font-size: 1.3rem; letter-spacing: -0.01em; margin: 0 0 6px; }
+    .tk-top .callout { margin-top: 0; }
+    .tk-summary { margin: 12px 0 0; font-weight: 700; color: var(--navy-700); }
+    .tk-form fieldset { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px 16px; margin: 0 0 14px; }
+    .tk-form legend { font-weight: 800; padding: 0 6px; }
+    .tk-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; }
+    .tk-field label { display: block; font-weight: 600; font-size: 0.93rem; margin-bottom: 4px; }
+    .tk-field input, .tk-field select, .tk-field textarea {
+      width: 100%; font: inherit; color: var(--ink); background: #fff; border: 1px solid #8e9bb0; border-radius: 10px;
+      padding: 9px 12px; min-height: 44px;
+    }
+    .tk-field textarea { min-height: 84px; resize: vertical; }
+    .tk-field input:disabled { background: #eef1f6; color: #4a5873; }
+    .tk-field input[aria-invalid="true"] { border-color: var(--err-ink); }
+    .tk-hint { font-size: 0.86rem; color: var(--muted); margin: 6px 0 0; }
+    .tk-check { display: flex; gap: 8px; align-items: center; margin: 0 0 10px; font-size: 0.93rem; }
+    .tk-check input { width: 20px; height: 20px; accent-color: var(--teal); }
+    .tk-form-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .st { display: inline-block; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.02em; padding: 3px 10px; border-radius: 999px; border: 1px solid; white-space: nowrap; }
+    .st-ok { background: #e7f6ee; color: #0b5a36; border-color: #9fd8b9; }
+    .st-soon { background: var(--amber-50); color: var(--amber-ink); border-color: var(--amber-line); }
+    .st-over { background: var(--err-50); color: var(--err-ink); border-color: var(--err-line); }
+    .st-miss { background: #eef1f6; color: #3d4a60; border-color: #8e9bb0; border-style: dashed; }
+    .st-na { background: #f3f4f6; color: #4a5873; border-color: #d4d9e2; }
+    .tk-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+    .tk-prop { padding: 22px; }
+    .tk-prop-head { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+    .tk-prop h3 { margin: 0; font-size: 1.15rem; letter-spacing: -0.01em; }
+    .tk-prop h3:focus { outline: none; }
+    .tk-prop h3:focus-visible { outline: 3px solid var(--teal-300); }
+    .tk-pc { margin: 2px 0 0; color: var(--muted); font-size: 0.9rem; }
+    .tk-acts { display: flex; gap: 8px; }
+    .tk-items { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+    .tk-item { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; background: #fbfcfe; display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+    .tk-item.tk-over { border-color: var(--err-line); }
+    .tk-item.tk-soon { border-color: var(--amber-line); }
+    .tk-item .k { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; color: var(--muted); }
+    .tk-item .v { font-weight: 700; font-size: 0.95rem; }
+    .tk-item .s, .tk-up-row .s { font-size: 0.84rem; color: var(--muted); }
+    .tk-notes { margin: 14px 0 0; font-size: 0.93rem; white-space: pre-wrap; }
+    .tk-up { list-style: none; margin: 0; padding: 0; }
+    .tk-up-row { display: grid; grid-template-columns: 9.5rem 1fr auto; gap: 6px 14px; align-items: center; padding: 12px 0; border-top: 1px solid var(--line); }
+    .tk-up-row:first-child { border-top: 0; }
+    .tk-up-row .d { font-weight: 800; font-variant-numeric: tabular-nums; }
+    .tk-up-row .t { min-width: 0; }
+    .tk-up-row .s { display: block; }
+    .tk-empty { color: var(--muted); margin: 0; }
+    .print-only { display: none; }
+    @media (max-width: 860px) { .tk-items { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 600px) {
+      .tk-items, .tk-row { grid-template-columns: 1fr; }
+      .tk-up-row { grid-template-columns: 1fr auto; }
+      .tk-up-row .d { grid-column: 1 / -1; }
+      .tk-bar .btn { flex: 1 1 100%; }
+      .tk-bar .btn-ghost { flex: 1 1 calc(50% - 5px); padding: 12px 10px; font-size: 0.95rem; }
+    }
+    @media print {
+      body { background: #fff; font-size: 12pt; }
+      .hero, .tk-noprint, #tk-form-wrap, .foot-grid, .foot-bottom, .tk-howto { display: none !important; }
+      main { margin-top: 0; }
+      .card { box-shadow: none; border-color: #999; padding: 12px; break-inside: avoid; }
+      .print-only { display: block; }
+      footer.site { background: #fff; color: #000; margin-top: 16px; padding: 0; }
+      .foot-notice { background: #fff; color: #000; border-color: #999; }
+      .foot-notice a { color: #000; }
+      .tk-items { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .st { border-width: 1.5px; }
+    }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Free certificate tracker (unofficial)",
+      "url": "https://aleborini.github.io/GrokLandlord/tracker/",
+      "description": "Free, unofficial tracker for landlords in England. Record gas safety, EICR, EPC and deposit dates, see what is due and export calendar reminders. Saved only in your browser.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "inLanguage": "en-GB",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "GBP"
+      },
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Landlord Register Deadline Checker (unofficial)",
+        "url": "https://aleborini.github.io/GrokLandlord/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://aleborini.github.io/GrokLandlord/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Certificate tracker",
+          "item": "https://aleborini.github.io/GrokLandlord/tracker/"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="hero page-hero">
+    <div class="container">
+      <div class="topbar">
+        <a class="brand" href="../" aria-label="Landlord Register Deadline Checker, unofficial, home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+          </span>
+          <span>Landlord Register Deadline Checker</span>
+        </a>
+        <span class="pill"><span class="dot" aria-hidden="true"></span>Unofficial · England only</span>
+      </div>
+      <p class="unofficial-line">Independent tool · not affiliated with the UK government · Register at <a href="https://www.gov.uk/government/news/stronger-protections-and-greater-confidence-for-renters" target="_blank" rel="noopener">gov.uk</a></p>
+      <div class="hero-inner">
+        <p class="crumbs"><a href="../">Home</a> › Certificate tracker</p>
+        <h1>Free certificate tracker</h1>
+        <p class="sub">Keep each property’s gas safety, EICR, EPC and deposit dates in one place and see what is coming up. Free, unofficial and saved only in your browser.</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section card tk-top" aria-labelledby="tk-h">
+      <h2 class="sr-only" id="tk-h">Your properties</h2>
+      <p class="print-only"><strong>Certificate tracker (unofficial)</strong> · <span id="tk-print-date"></span></p>
+      <div class="callout tk-noprint">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        <span><strong>Private by design.</strong> Everything you enter is saved only in this browser on this device (local storage). Nothing is sent to us or anyone else, and there is no sign-up. Clearing your browser data deletes it, so export a backup now and then. <a href="../privacy/">Privacy</a></span>
+      </div>
+      <div class="tk-bar tk-noprint">
+        <button type="button" class="btn" id="tk-add" aria-controls="tk-form-wrap" aria-expanded="false">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          Add a property
+        </button>
+        <button type="button" class="btn btn-ghost" id="tk-ics">Download calendar (.ics)</button>
+        <button type="button" class="btn btn-ghost" id="tk-export">Export backup (.json)</button>
+        <input type="file" id="tk-import" class="sr-only tk-file-input" accept="application/json,.json" />
+        <label for="tk-import" class="btn btn-ghost">Import backup</label>
+        <button type="button" class="btn btn-ghost" id="tk-print">Print</button>
+      </div>
+      <p class="tk-summary" id="tk-summary"></p>
+      <div id="tk-msg" class="msg hidden" role="status"></div>
+      <p id="tk-live" class="sr-only" aria-live="polite"></p>
+    </section>
+
+    <section class="section card hidden tk-form" id="tk-form-wrap" aria-labelledby="form-h">
+      <h2 id="form-h" class="tk-form-title">Add a property</h2>
+      <p class="tk-hint">Copy the dates from your certificates. Only the nickname is required. Check your certificate for the exact date.</p>
+      <form id="tk-form" novalidate>
+        <div id="f-err" class="msg err hidden" role="alert"></div>
+        <fieldset>
+          <legend>Property</legend>
+          <div class="tk-row">
+            <div class="tk-field">
+              <label for="f-name">Nickname or address (required)</label>
+              <input type="text" id="f-name" name="f-name" maxlength="120" autocomplete="off" required aria-required="true" />
+            </div>
+            <div class="tk-field">
+              <label for="f-postcode">Postcode (optional)</label>
+              <input type="text" id="f-postcode" name="f-postcode" maxlength="12" autocomplete="off" />
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Gas safety check</legend>
+          <label class="tk-check"><input type="checkbox" id="f-gas-na" /> Not applicable to this property (for example, no gas)</label>
+          <div class="tk-row">
+            <div class="tk-field">
+              <label for="f-gas-last">Date of last safety check (as on the record)</label>
+              <input type="date" id="f-gas-last" name="f-gas-last" />
+            </div>
+            <div class="tk-field">
+              <label for="f-gas-due">Next check due (optional)</label>
+              <input type="date" id="f-gas-due" name="f-gas-due" aria-describedby="h-gas" />
+              <p class="tk-hint" id="h-gas">Optional. If you leave this empty, the tracker suggests a date from your last check.</p>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Electrical inspection (EICR)</legend>
+          <label class="tk-check"><input type="checkbox" id="f-eicr-na" /> Not applicable to this property</label>
+          <div class="tk-row">
+            <div class="tk-field">
+              <label for="f-eicr-date">Date of inspection</label>
+              <input type="date" id="f-eicr-date" name="f-eicr-date" />
+            </div>
+            <div class="tk-field">
+              <label for="f-eicr-next">Next inspection due (from the report)</label>
+              <input type="date" id="f-eicr-next" name="f-eicr-next" aria-describedby="h-eicr" />
+              <p class="tk-hint" id="h-eicr">Enter the date printed on your report for the next inspection.</p>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Energy Performance Certificate (EPC)</legend>
+          <label class="tk-check"><input type="checkbox" id="f-epc-na" /> Not applicable to this property</label>
+          <div class="tk-row">
+            <div class="tk-field">
+              <label for="f-epc-expiry">Valid until (expiry date on the certificate)</label>
+              <input type="date" id="f-epc-expiry" name="f-epc-expiry" aria-describedby="h-epc" />
+              <p class="tk-hint" id="h-epc">You can look up your EPC on the official <a href="https://www.gov.uk/find-energy-certificate" target="_blank" rel="noopener">find an energy certificate</a> service.</p>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Deposit protection</legend>
+          <div class="tk-row">
+            <div class="tk-field">
+              <label for="f-dep-status">Is the deposit protected?</label>
+              <select id="f-dep-status" name="f-dep-status">
+                <option value="">Choose…</option>
+                <option value="yes">Yes, protected</option>
+                <option value="no">Not yet protected</option>
+                <option value="na">Not applicable (no deposit)</option>
+              </select>
+            </div>
+            <div class="tk-field">
+              <label for="f-dep-protected">Date protected (optional)</label>
+              <input type="date" id="f-dep-protected" name="f-dep-protected" />
+            </div>
+            <div class="tk-field">
+              <label for="f-dep-received">Date you received the deposit (if not yet protected)</label>
+              <input type="date" id="f-dep-received" name="f-dep-received" aria-describedby="h-dep" />
+              <p class="tk-hint" id="h-dep">Only needed if the deposit is not yet protected.</p>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Notes</legend>
+          <div class="tk-field">
+            <label for="f-notes">Notes (optional, saved only in this browser)</label>
+            <textarea id="f-notes" name="f-notes" maxlength="2000" aria-describedby="h-notes"></textarea>
+            <p class="tk-hint" id="h-notes">For example, the engineer or certificate number. Please don’t enter tenants’ personal details.</p>
+          </div>
+        </fieldset>
+        <div class="tk-form-actions">
+          <button type="submit" class="btn">Save property</button>
+          <button type="button" class="btn btn-ghost" id="f-cancel">Cancel</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="section card" aria-labelledby="up-h">
+      <h2 id="up-h" class="tk-sec-title">Coming up</h2>
+      <p class="tk-hint tk-noprint">Every date across your properties, soonest first. Overdue items are at the top; items with no date are at the end.</p>
+      <ol class="tk-up" id="tk-up"></ol>
+      <p class="tk-empty" id="tk-up-empty">Nothing yet. Add a property to see what is due.</p>
+    </section>
+
+    <section class="section" aria-labelledby="props-h">
+      <div class="section-head">
+        <h2 id="props-h">Properties</h2>
+      </div>
+      <p class="tk-empty card" id="tk-empty">No properties saved in this browser yet. Use “Add a property” to start, or import a backup.</p>
+      <ul class="tk-list" id="tk-list"></ul>
+    </section>
+
+    <section class="section card tk-howto" aria-labelledby="how-h">
+      <div class="prose">
+        <h2 id="how-h">How the dates and statuses work</h2>
+        <p>This tracker is a reminder aid. It does not check that your certificates are valid and it is not legal advice. <strong>Check your certificate for the exact date.</strong> You can always type your own due date instead of a suggested one.</p>
+        <h2>Statuses</h2>
+        <ul>
+          <li><span class="st st-over">Overdue</span> the date has passed.</li>
+          <li><span class="st st-soon">Due within 60 days</span> the date is today or in the next 60 days.</li>
+          <li><span class="st st-ok">OK</span> the date is more than 60 days away (or the deposit is marked as protected).</li>
+          <li><span class="st st-miss">Missing</span> no date has been entered yet.</li>
+        </ul>
+        <h2>Gas safety check</h2>
+        <p>The law says landlords must make sure each gas appliance and flue is checked for safety at intervals of not more than 12 months (<a href="https://www.legislation.gov.uk/uksi/1998/2451/regulation/36" target="_blank" rel="noopener">Gas Safety (Installation and Use) Regulations 1998, regulation 36</a>). If you only enter the date of your last check, the tracker suggests the day before its 1-year anniversary, marked “suggested”.</p>
+        <p>There is also a rule that can let a check carried out up to 2 months early keep its original due date (<a href="https://www.legislation.gov.uk/uksi/1998/2451/regulation/36A" target="_blank" rel="noopener">regulation 36A</a>), and different appliances can have different dates. The tracker does not apply that rule, so if your record shows a later due date, enter it yourself.</p>
+        <h2>Electrical inspection (EICR)</h2>
+        <p>Electrical installations must be inspected and tested at intervals of no more than 5 years, or sooner if the most recent report says so (<a href="https://www.legislation.gov.uk/uksi/2020/312/regulation/3" target="_blank" rel="noopener">Electrical Safety Standards Regulations 2020, regulation 3</a>; <a href="https://www.gov.uk/government/publications/electrical-safety-standards-in-the-private-rented-sector-guidance-for-landlords-tenants-and-local-authorities/guide-for-landlords-electrical-safety-standards-in-the-private-rented-sector" target="_blank" rel="noopener">gov.uk guidance</a>). Each report gives the date by which the next inspection is required, so enter that date. If you leave it empty, the tracker suggests the day before the 5-year anniversary of the inspection, marked “suggested”. An earlier date on your report always applies.</p>
+        <h2>Energy Performance Certificate (EPC)</h2>
+        <p>gov.uk says an EPC is valid for 10 years (<a href="https://www.gov.uk/buy-sell-your-home/energy-performance-certificates" target="_blank" rel="noopener">gov.uk: Energy Performance Certificates</a>). The tracker doesn’t work this out: enter the expiry date shown on your certificate.</p>
+        <h2>Deposit protection</h2>
+        <p>gov.uk says you (or your letting agent) must put your tenants’ deposit in a government-approved scheme within 30 days of getting it (<a href="https://www.gov.uk/deposit-protection-schemes-and-landlords" target="_blank" rel="noopener">gov.uk: deposit protection schemes</a>; <a href="https://www.legislation.gov.uk/ukpga/2004/34/section/213" target="_blank" rel="noopener">Housing Act 2004, section 213</a>). If you mark a deposit as not yet protected and enter the date you received it, the tracker shows the last day of that 30-day period, counting the day you received it. Check gov.uk for which tenancies this applies to.</p>
+        <p>For a full list of landlord duties, see <a href="https://www.gov.uk/renting-out-a-property/landlord-responsibilities" target="_blank" rel="noopener">gov.uk: landlord responsibilities</a>. Rules checked against gov.uk and legislation.gov.uk on <strong>20 October 2026</strong>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site">
+    <div class="container">
+      <div class="foot-notice" role="note">
+        This is not an official UK government website and is not linked to the government. It is not the official register. Register only at
+        <a href="https://www.gov.uk/government/news/stronger-protections-and-greater-confidence-for-renters" target="_blank" rel="noopener">gov.uk</a>
+        /
+        <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/" target="_blank" rel="noopener">Housing Hub</a>.
+      </div>
+      <div class="foot-grid">
+        <div>
+          <h2>Landlord Register Deadline Checker (unofficial)</h2>
+          <p><strong>Landlord Register Deadline Checker</strong> (unofficial) — general information only, not legal advice. Always check official sources before acting.</p>
+          <p>Dates and figures checked against gov.uk / Housing Hub / legislation.gov.uk on <strong>19 October 2026</strong>.</p>
+          <p>
+            Contains public sector information licensed under the
+            <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank" rel="noopener">Open Government Licence v3.0</a>.
+          </p>
+        </div>
+        <div>
+          <h2>Key official links</h2>
+          <ul>
+            <li><a href="https://www.gov.uk/government/news/stronger-protections-and-greater-confidence-for-renters" target="_blank" rel="noopener">GOV.UK: Stronger protections… (rollout announcement)</a></li>
+            <li><a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/" target="_blank" rel="noopener">Housing Hub: Get ready to register</a></li>
+            <li><a href="https://www.gov.uk/government/publications/guide-to-the-renters-rights-act/guide-to-the-renters-rights-act" target="_blank" rel="noopener">Guide to the Renters’ Rights Act</a></li>
+            <li><a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861" target="_blank" rel="noopener">The Private Rented Sector Database Regulations 2026</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <nav aria-label="Site">
+          <ul class="foot-nav">
+            <li><a href="../">Home: postcode checker</a></li>
+            <li><a href="../#regions">Deadlines by region</a></li>
+            <li><a href="../tracker/">Free certificate tracker</a></li>
+            <li><a href="../about/">About this site</a></li>
+            <li><a href="../privacy/">Privacy</a></li>
+          </ul>
+        </nav>
+        <span>No cookies · no analytics · no sign-up · nothing stored on a server.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+(function () {
+  "use strict";
+  // Free certificate tracker. Data lives ONLY in this browser (localStorage). Nothing is sent anywhere.
+  // Intervals verified 20 Oct 2026, see fact-check.md "Tracker":
+  //  gas: not more than 12 months (SI 1998/2451 reg 36(3)(a)); reg 36A early-check rule NOT applied.
+  //  EICR: no more than 5 years, or earlier date in report (SI 2020/312 reg 3(2)); report date takes priority.
+  //  EPC: valid 10 years (gov.uk); user enters the "valid until" date, nothing computed.
+  //  Deposit: within 30 days beginning with the day received (Housing Act 2004 s213(3)).
+  var KEY = "lrdc-certificate-tracker-v1";
+  var SOON_DAYS = 60;
+  var SITE = "https://aleborini.github.io/GrokLandlord/tracker/";
+  var ISO_RE = /^\d{4}-\d{2}-\d{2}$/;
+  var MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  var DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  var LABELS = { gas: "Gas safety check", eicr: "Electrical inspection (EICR)", epc: "EPC", deposit: "Deposit protection" };
+  var STATUS_TEXT = { ok: "OK", soon: "Due within 60 days", over: "Overdue", miss: "Missing", na: "Not applicable" };
+
+  function $(id) { return document.getElementById(id); }
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function validIso(s) {
+    if (typeof s !== "string" || !ISO_RE.test(s)) return false;
+    var p = s.split("-"), d = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2]));
+    return d.getUTCFullYear() === +p[0] && d.getUTCMonth() === +p[1] - 1 && d.getUTCDate() === +p[2];
+  }
+  function dayNum(iso) { var p = iso.split("-"); return Math.round(Date.UTC(+p[0], +p[1] - 1, +p[2]) / 86400000); }
+  function isoFromNum(n) { var d = new Date(n * 86400000); return d.getUTCFullYear() + "-" + pad(d.getUTCMonth() + 1) + "-" + pad(d.getUTCDate()); }
+  function todayIso() { var n = new Date(); return n.getFullYear() + "-" + pad(n.getMonth() + 1) + "-" + pad(n.getDate()); }
+  function addDays(iso, n) { return isoFromNum(dayNum(iso) + n); }
+  // Same calendar date `years` later (31st -> last day of month if needed), minus one day: stays strictly "within" the period.
+  function dayBeforeAnniversary(iso, years) {
+    var p = iso.split("-"), y = +p[0] + years, m = +p[1] - 1, d = +p[2];
+    var last = new Date(Date.UTC(y, m + 1, 0)).getUTCDate();
+    if (d > last) d = last;
+    return isoFromNum(Math.round(Date.UTC(y, m, d) / 86400000) - 1);
+  }
+  function fmt(iso) {
+    var p = iso.split("-"), d = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2]));
+    return DAYS[d.getUTCDay()] + " " + (+p[2]) + " " + MONTHS[+p[1] - 1] + " " + p[0];
+  }
+  function statusFor(due, today) {
+    var diff = dayNum(due) - dayNum(today);
+    if (diff < 0) return "over";
+    if (diff <= SOON_DAYS) return "soon";
+    return "ok";
+  }
+  function relText(due, today) {
+    var diff = dayNum(due) - dayNum(today);
+    if (diff === 0) return "today";
+    if (diff === 1) return "tomorrow";
+    if (diff > 1) return "in " + diff + " days";
+    if (diff === -1) return "1 day ago";
+    return (-diff) + " days ago";
+  }
+
+  // ---------- evaluate one property ----------
+  function evaluate(p, today) {
+    var out = [];
+    // Gas
+    var g = p.gas || {};
+    if (g.na) out.push({ key: "gas", status: "na", detail: "Marked not applicable" });
+    else {
+      var gDue = null, gSrc = "";
+      if (g.due) { gDue = g.due; gSrc = "your date"; }
+      else if (g.last) { gDue = dayBeforeAnniversary(g.last, 1); gSrc = "suggested"; }
+      out.push(gDue ? { key: "gas", due: gDue, src: gSrc, status: statusFor(gDue, today), verb: "Next check due" }
+                    : { key: "gas", status: "miss", detail: "Enter the date of your last check" });
+    }
+    // EICR
+    var e = p.eicr || {};
+    if (e.na) out.push({ key: "eicr", status: "na", detail: "Marked not applicable" });
+    else {
+      var eDue = null, eSrc = "";
+      if (e.next) { eDue = e.next; eSrc = "from your report"; }
+      else if (e.date) { eDue = dayBeforeAnniversary(e.date, 5); eSrc = "suggested"; }
+      out.push(eDue ? { key: "eicr", due: eDue, src: eSrc, status: statusFor(eDue, today), verb: "Next inspection due" }
+                    : { key: "eicr", status: "miss", detail: "Enter the date from your report" });
+    }
+    // EPC
+    var c = p.epc || {};
+    if (c.na) out.push({ key: "epc", status: "na", detail: "Marked not applicable" });
+    else if (c.expiry) out.push({ key: "epc", due: c.expiry, src: "from your certificate", status: statusFor(c.expiry, today), verb: "Valid until" });
+    else out.push({ key: "epc", status: "miss", detail: "Enter the ‘valid until’ date" });
+    // Deposit
+    var d = p.deposit || {};
+    if (d.status === "na") out.push({ key: "deposit", status: "na", detail: "No deposit / not applicable" });
+    else if (d.status === "yes") out.push({ key: "deposit", status: "ok", detail: d.protectedOn ? "Protected on " + fmt(d.protectedOn) : "Marked as protected" });
+    else if (d.status === "no" && d.received) {
+      var dl = addDays(d.received, 29);
+      out.push({ key: "deposit", due: dl, src: "30 days from " + fmt(d.received), status: statusFor(dl, today), verb: "Protect by" });
+    } else if (d.status === "no") out.push({ key: "deposit", status: "miss", detail: "Not yet protected: enter the date you received it" });
+    else out.push({ key: "deposit", status: "miss", detail: "Choose whether the deposit is protected" });
+    return out;
+  }
+
+  // ---------- storage ----------
+  var storageOk = true;
+  var state = { properties: [] };
+  function load() {
+    try {
+      var raw = window.localStorage.getItem(KEY);
+      if (raw) { var parsed = sanitizeAll(JSON.parse(raw)); if (parsed) state.properties = parsed; }
+    } catch (err) { storageOk = false; }
+  }
+  function save() {
+    try { window.localStorage.setItem(KEY, JSON.stringify({ version: 1, properties: state.properties })); storageOk = true; }
+    catch (err) { storageOk = false; showMsg("Your browser blocked saving. Changes will be lost when you close this page. Export a backup to keep them.", "err"); }
+  }
+  function str(v, max) { return typeof v === "string" ? v.trim().slice(0, max) : ""; }
+  function dt(v) { return validIso(v) ? v : ""; }
+  function newId() { return "p" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+  function sanitize(p) {
+    if (!p || typeof p !== "object") return null;
+    var name = str(p.name, 120);
+    if (!name) return null;
+    var g = p.gas || {}, e = p.eicr || {}, c = p.epc || {}, d = p.deposit || {};
+    var ds = ["yes", "no", "na"].indexOf(d.status) >= 0 ? d.status : "";
+    return {
+      id: (typeof p.id === "string" && /^[a-z0-9]{1,40}$/i.test(p.id)) ? p.id : newId(),
+      name: name,
+      postcode: str(p.postcode, 12).toUpperCase(),
+      gas: { na: g.na === true, last: dt(g.last), due: dt(g.due) },
+      eicr: { na: e.na === true, date: dt(e.date), next: dt(e.next) },
+      epc: { na: c.na === true, expiry: dt(c.expiry) },
+      deposit: { status: ds, received: dt(d.received), protectedOn: dt(d.protectedOn) },
+      notes: str(p.notes, 2000)
+    };
+  }
+  function sanitizeAll(obj) {
+    var list = Array.isArray(obj) ? obj : (obj && Array.isArray(obj.properties) ? obj.properties : null);
+    if (!list) return null;
+    var out = [], seen = {};
+    for (var i = 0; i < list.length && i < 500; i++) {
+      var s = sanitize(list[i]);
+      if (!s) continue;
+      if (seen[s.id]) s.id = newId();
+      seen[s.id] = true;
+      out.push(s);
+    }
+    return out;
+  }
+
+  // ---------- DOM helpers ----------
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  function chip(status) { return el("span", "st st-" + status, STATUS_TEXT[status]); }
+  function showMsg(text, kind) { var m = $("tk-msg"); m.textContent = text; m.className = "msg " + (kind || "info"); }
+  function announce(text) { var a = $("tk-live"); a.textContent = ""; setTimeout(function () { a.textContent = text; }, 30); }
+
+  // ---------- render ----------
+  function render() {
+    var today = todayIso();
+    var list = $("tk-list");
+    list.textContent = "";
+    $("tk-empty").classList.toggle("hidden", state.properties.length > 0);
+    var upcoming = [], missing = [], counts = { over: 0, soon: 0, miss: 0 };
+    state.properties.forEach(function (p) {
+      var items = evaluate(p, today);
+      var li = el("li", "tk-prop card");
+      li.id = "prop-" + p.id;
+      var head = el("div", "tk-prop-head");
+      var hwrap = el("div");
+      var h = el("h3", null, p.name);
+      h.id = "prop-h-" + p.id;
+      h.tabIndex = -1;
+      hwrap.appendChild(h);
+      if (p.postcode) hwrap.appendChild(el("p", "tk-pc", p.postcode));
+      head.appendChild(hwrap);
+      var acts = el("div", "tk-acts tk-noprint");
+      var eb = el("button", "btn btn-ghost btn-sm", "Edit");
+      eb.type = "button"; eb.setAttribute("aria-label", "Edit " + p.name);
+      eb.addEventListener("click", function () { openForm(p.id); });
+      var db = el("button", "btn btn-ghost btn-sm btn-danger", "Delete");
+      db.type = "button"; db.setAttribute("aria-label", "Delete " + p.name);
+      db.addEventListener("click", function () { removeProp(p.id); });
+      acts.appendChild(eb); acts.appendChild(db);
+      head.appendChild(acts);
+      li.appendChild(head);
+      var ul = el("ul", "tk-items");
+      ul.setAttribute("aria-label", "Certificates for " + p.name);
+      items.forEach(function (it) {
+        var x = el("li", "tk-item tk-" + it.status);
+        x.appendChild(el("span", "k", LABELS[it.key]));
+        x.appendChild(chip(it.status));
+        if (it.due) {
+          x.appendChild(el("span", "v", it.verb + ": " + fmt(it.due)));
+          x.appendChild(el("span", "s", relText(it.due, today) + " · " + it.src));
+          upcoming.push({ p: p, it: it });
+        } else {
+          x.appendChild(el("span", "s", it.detail));
+          if (it.status === "miss") missing.push({ p: p, it: it });
+        }
+        if (counts[it.status] != null) counts[it.status]++;
+        ul.appendChild(x);
+      });
+      li.appendChild(ul);
+      if (p.notes) { var n = el("p", "tk-notes"); n.appendChild(el("strong", null, "Notes: ")); n.appendChild(document.createTextNode(p.notes)); li.appendChild(n); }
+      list.appendChild(li);
+    });
+    // Coming up (sorted by date, then property name)
+    upcoming.sort(function (a, b) { return a.it.due < b.it.due ? -1 : a.it.due > b.it.due ? 1 : a.p.name.localeCompare(b.p.name); });
+    var up = $("tk-up");
+    up.textContent = "";
+    upcoming.forEach(function (u) {
+      var li = el("li", "tk-up-row tk-" + u.it.status);
+      li.appendChild(el("span", "d", fmt(u.it.due)));
+      var t = el("span", "t");
+      t.appendChild(el("strong", null, LABELS[u.it.key]));
+      t.appendChild(document.createTextNode(" · " + u.p.name));
+      var r = relText(u.it.due, today);
+      t.appendChild(el("span", "s", r.charAt(0).toUpperCase() + r.slice(1) + " · " + u.it.src));
+      li.appendChild(t);
+      li.appendChild(chip(u.it.status));
+      up.appendChild(li);
+    });
+    missing.forEach(function (u) {
+      var li = el("li", "tk-up-row tk-miss");
+      li.appendChild(el("span", "d", "No date"));
+      var t = el("span", "t");
+      t.appendChild(el("strong", null, LABELS[u.it.key]));
+      t.appendChild(document.createTextNode(" · " + u.p.name));
+      t.appendChild(el("span", "s", u.it.detail));
+      li.appendChild(t);
+      li.appendChild(chip("miss"));
+      up.appendChild(li);
+    });
+    $("tk-up-empty").classList.toggle("hidden", upcoming.length + missing.length > 0);
+    $("tk-summary").textContent = state.properties.length
+      ? state.properties.length + (state.properties.length === 1 ? " property" : " properties") + " · " + counts.over + " overdue · " + counts.soon + " due within 60 days · " + counts.miss + " missing"
+      : "";
+    $("tk-print-date").textContent = "Printed " + fmt(today) + ". Unofficial reminder list, not legal advice. Check your certificates for the exact dates.";
+  }
+
+  // ---------- form ----------
+  var editingId = null;
+  var form = $("tk-form");
+  function f(id) { return $(id); }
+  function setNa(box, ids) {
+    ids.forEach(function (id) { f(id).disabled = box.checked; });
+  }
+  function updateHints() {
+    var gl = f("f-gas-last").value, ed = f("f-eicr-date").value, dr = f("f-dep-received").value;
+    f("h-gas").textContent = validIso(gl)
+      ? "Suggested: " + fmt(dayBeforeAnniversary(gl, 1)) + " (the day before the 1-year anniversary of your last check). Leave this box empty to use the suggestion, or enter your own date."
+      : "Optional. If you leave this empty, the tracker suggests a date from your last check.";
+    f("h-eicr").textContent = validIso(ed)
+      ? "Enter the date printed on your report. If you leave it empty, the tracker suggests " + fmt(dayBeforeAnniversary(ed, 5)) + " (the day before the 5-year anniversary). A shorter date on your report always applies."
+      : "Enter the date printed on your report for the next inspection.";
+    f("h-dep").textContent = (f("f-dep-status").value === "no" && validIso(dr))
+      ? "Protect by: " + fmt(addDays(dr, 29)) + " (30 days, counting the day you received it)."
+      : "Only needed if the deposit is not yet protected.";
+  }
+  function openForm(id) {
+    editingId = id || null;
+    var p = id ? state.properties.filter(function (x) { return x.id === id; })[0] : null;
+    p = p || sanitize({ name: "x" });
+    form.reset();
+    f("form-h").textContent = id ? "Edit " + p.name : "Add a property";
+    f("f-name").value = id ? p.name : "";
+    f("f-postcode").value = p.postcode;
+    f("f-gas-na").checked = p.gas.na; f("f-gas-last").value = p.gas.last; f("f-gas-due").value = p.gas.due;
+    f("f-eicr-na").checked = p.eicr.na; f("f-eicr-date").value = p.eicr.date; f("f-eicr-next").value = p.eicr.next;
+    f("f-epc-na").checked = p.epc.na; f("f-epc-expiry").value = p.epc.expiry;
+    f("f-dep-status").value = p.deposit.status; f("f-dep-received").value = p.deposit.received; f("f-dep-protected").value = p.deposit.protectedOn;
+    f("f-notes").value = p.notes;
+    setNa(f("f-gas-na"), ["f-gas-last", "f-gas-due"]);
+    setNa(f("f-eicr-na"), ["f-eicr-date", "f-eicr-next"]);
+    setNa(f("f-epc-na"), ["f-epc-expiry"]);
+    f("f-err").classList.add("hidden");
+    updateHints();
+    $("tk-form-wrap").classList.remove("hidden");
+    $("tk-add").setAttribute("aria-expanded", "true");
+    f("f-name").focus();
+    $("tk-form-wrap").scrollIntoView({ block: "start" });
+  }
+  function closeForm(focusId) {
+    $("tk-form-wrap").classList.add("hidden");
+    $("tk-add").setAttribute("aria-expanded", "false");
+    var target = focusId ? $("prop-h-" + focusId) : $("tk-add");
+    if (target) target.focus();
+    editingId = null;
+  }
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var name = f("f-name").value.trim();
+    if (!name) {
+      var er = f("f-err"); er.textContent = "Enter a nickname or address for the property."; er.classList.remove("hidden");
+      f("f-name").setAttribute("aria-invalid", "true"); f("f-name").focus(); return;
+    }
+    f("f-name").removeAttribute("aria-invalid");
+    var data = sanitize({
+      id: editingId || newId(), name: name, postcode: f("f-postcode").value,
+      gas: { na: f("f-gas-na").checked, last: f("f-gas-last").value, due: f("f-gas-due").value },
+      eicr: { na: f("f-eicr-na").checked, date: f("f-eicr-date").value, next: f("f-eicr-next").value },
+      epc: { na: f("f-epc-na").checked, expiry: f("f-epc-expiry").value },
+      deposit: { status: f("f-dep-status").value, received: f("f-dep-received").value, protectedOn: f("f-dep-protected").value },
+      notes: f("f-notes").value
+    });
+    var idx = -1;
+    state.properties.forEach(function (x, i) { if (x.id === data.id) idx = i; });
+    if (idx >= 0) state.properties[idx] = data; else state.properties.push(data);
+    save(); render();
+    announce("Saved " + data.name + ".");
+    closeForm(data.id);
+  });
+  $("f-cancel").addEventListener("click", function () { closeForm(editingId); });
+  form.addEventListener("input", updateHints);
+  form.addEventListener("change", function (ev) {
+    if (ev.target.id === "f-gas-na") setNa(ev.target, ["f-gas-last", "f-gas-due"]);
+    if (ev.target.id === "f-eicr-na") setNa(ev.target, ["f-eicr-date", "f-eicr-next"]);
+    if (ev.target.id === "f-epc-na") setNa(ev.target, ["f-epc-expiry"]);
+    updateHints();
+  });
+  $("tk-add").addEventListener("click", function () { openForm(null); });
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key === "Escape" && !$("tk-form-wrap").classList.contains("hidden")) closeForm(editingId);
+  });
+
+  function removeProp(id) {
+    var p = state.properties.filter(function (x) { return x.id === id; })[0];
+    if (!p) return;
+    if (!window.confirm("Delete “" + p.name + "” and all its dates from this browser? This cannot be undone.")) return;
+    state.properties = state.properties.filter(function (x) { return x.id !== id; });
+    save(); render();
+    announce("Deleted " + p.name + ".");
+    $("tk-add").focus();
+  }
+
+  // ---------- downloads ----------
+  function download(name, text, type) {
+    var blob = new Blob([text], { type: type });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+  }
+  function icsEscape(s) { return String(s).replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n"); }
+  // RFC 5545 line folding at 75 octets (UTF-8 safe).
+  function fold(line) {
+    var out = [], cur = "", bytes = 0, limit = 75;
+    for (var i = 0; i < line.length; i++) {
+      var ch = line[i], code = line.charCodeAt(i);
+      if (code >= 0xd800 && code <= 0xdbff && i + 1 < line.length) { ch += line[++i]; }
+      var b = unescape(encodeURIComponent(ch)).length;
+      if (bytes + b > limit) { out.push(cur); cur = " " + ch; bytes = 1 + b; limit = 75; }
+      else { cur += ch; bytes += b; }
+    }
+    out.push(cur);
+    return out.join("\r\n");
+  }
+  function buildIcs(props, today) {
+    var stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+    var SUM = { gas: "Gas safety check due", eicr: "Electrical inspection (EICR) due", epc: "EPC expires", deposit: "Protect deposit by (30-day limit)" };
+    var lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Landlord Register Deadline Checker//Certificate tracker//EN", "CALSCALE:GREGORIAN", "METHOD:PUBLISH", "X-WR-CALNAME:Certificate tracker (unofficial)"];
+    var n = 0;
+    props.forEach(function (p) {
+      evaluate(p, today).forEach(function (it) {
+        if (!it.due) return;
+        n++;
+        var summary = SUM[it.key] + " — " + p.name;
+        var desc = "Unofficial reminder from the free certificate tracker (" + it.src + "). Check your certificate for the exact date. Not legal advice. " + SITE;
+        lines.push("BEGIN:VEVENT", "UID:" + p.id + "-" + it.key + "@aleborini.github.io", "DTSTAMP:" + stamp,
+          "DTSTART;VALUE=DATE:" + it.due.replace(/-/g, ""), "DTEND;VALUE=DATE:" + addDays(it.due, 1).replace(/-/g, ""),
+          "SUMMARY:" + icsEscape(summary), "DESCRIPTION:" + icsEscape(desc), "TRANSP:TRANSPARENT",
+          "BEGIN:VALARM", "TRIGGER:-P7D", "ACTION:DISPLAY", "DESCRIPTION:" + icsEscape("Reminder: " + summary + " in 7 days"), "END:VALARM",
+          "END:VEVENT");
+      });
+    });
+    lines.push("END:VCALENDAR");
+    return { count: n, text: lines.map(fold).join("\r\n") + "\r\n" };
+  }
+  $("tk-ics").addEventListener("click", function () {
+    var r = buildIcs(state.properties, todayIso());
+    if (!r.count) { showMsg("Add at least one date first. There is nothing to put in the calendar yet.", "err"); return; }
+    download("certificate-reminders.ics", r.text, "text/calendar;charset=utf-8");
+    showMsg("Calendar file created with " + r.count + (r.count === 1 ? " date" : " dates") + ", each with a reminder 7 days before. Open it to add the dates to your calendar.", "info");
+  });
+  $("tk-export").addEventListener("click", function () {
+    if (!state.properties.length) { showMsg("There is nothing to back up yet.", "err"); return; }
+    var body = JSON.stringify({ app: "lrdc-certificate-tracker", version: 1, exported: new Date().toISOString(), properties: state.properties }, null, 2);
+    download("certificate-tracker-backup-" + todayIso() + ".json", body, "application/json");
+    showMsg("Backup file saved to your device. Keep it somewhere safe: it is the only copy outside this browser.", "info");
+  });
+  $("tk-import").addEventListener("change", function (ev) {
+    var file = ev.target.files && ev.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      var list = null;
+      try { list = sanitizeAll(JSON.parse(String(reader.result))); } catch (err) { list = null; }
+      ev.target.value = "";
+      if (!list || !list.length) { showMsg("That file doesn’t look like a tracker backup. Nothing was changed.", "err"); return; }
+      if (state.properties.length && !window.confirm("Replace the " + state.properties.length + " saved " + (state.properties.length === 1 ? "property" : "properties") + " in this browser with the " + list.length + " in the backup?")) {
+        showMsg("Import cancelled. Nothing was changed.", "info"); return;
+      }
+      state.properties = list;
+      save(); render();
+      showMsg("Imported " + list.length + (list.length === 1 ? " property" : " properties") + " from the backup.", "info");
+    };
+    reader.onerror = function () { ev.target.value = ""; showMsg("Couldn’t read that file. Nothing was changed.", "err"); };
+    reader.readAsText(file);
+  });
+  $("tk-print").addEventListener("click", function () { window.print(); });
+
+  load();
+  if (!storageOk) showMsg("Your browser is blocking local storage, so nothing can be saved here. You can still use the tracker and export a backup.", "err");
+  render();
+  // If the tab stays open past midnight, refresh the statuses (only when the date changes, so focus is not disturbed).
+  var shownDay = todayIso();
+  setInterval(function () { if (todayIso() !== shownDay) { shownDay = todayIso(); render(); } }, 60000);
+})();
+</script>
+</body>
+</html>
