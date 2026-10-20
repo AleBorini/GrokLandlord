@@ -1,0 +1,13 @@
+    /* Email reminders form (only included when REMINDERS_ENABLED=1) */
+    .rm-form { display: grid; gap: 14px; margin-top: 14px; max-width: 640px; }
+    .rm-form .tk-row { align-items: start; }
+    .rm-hp { position: absolute !important; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+    .rm-consent { align-items: flex-start; }
+    .rm-consent input { flex: 0 0 auto; margin-top: 2px; }
+    .rm-err { color: var(--err-ink); font-size: 0.88rem; margin: 6px 0 0; }
+    .rm-err:empty { display: none; }
+    .rm-status { margin: 0; font-weight: 600; }
+    .rm-status:empty { display: none; }
+    .rm-status.ok { color: #0b5a36; }
+    .rm-status.bad { color: var(--err-ink); }
+    .rm-small { font-size: 0.86rem; color: var(--muted); margin: 0; }
