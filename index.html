@@ -5,7 +5,7 @@
     <meta name="google-site-verification" content="yG7nudlYRdJyO4dOfhEAPFRUHk_4l7CtLF1yjLC_NiQ" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- TODO: replace https://aleborini.github.io/GrokLandlord/ with the real site origin in: this file (og/twitter/canonical/JSON-LD), robots.txt, sitemap.xml -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.postcodes.io; script-src 'self' 'sha256-X2+XLqbwMmNFVAZw1ocqR2e8nAurosehaDDGckFWGsI='; style-src 'self' 'sha256-usyKYN5QfAF3FNcx9N+0ivVJjaEeNlF9cBasUFswAi4='; img-src 'self' data:; base-uri 'none'; form-action 'none'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.postcodes.io; script-src 'self' 'sha256-Te055Js/YFUVWYTeWsQYdmp4GdlPm+goegXWk6FsF7E='; style-src 'self' 'sha256-LWO4NUMlIZHY50irgJgnScpensLz0LPTTQFQ2jXBBOs='; img-src 'self' data:; base-uri 'none'; form-action 'none'" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>England Landlord Register Deadlines – Unofficial Checker</title>
   <meta name="description" content="Unofficial checker for England landlord register deadlines by postcode or region. Fee, checklist and windows. Not government — register only at gov.uk." />
@@ -27,258 +27,315 @@
   <meta name="twitter:image" content="https://aleborini.github.io/GrokLandlord/og-image.png" />
   <style>
     :root {
-      --bg: #f4f6f8;
+      --navy-900: #0a1a33;
+      --navy-800: #0f2747;
+      --navy-700: #16355f;
+      --ink: #0f1d33;
+      --muted: #4a5873;
+      --line: #e3e8f0;
+      --bg: #f6f8fb;
       --card: #ffffff;
-      --ink: #1a2332;
-      --muted: #5a6577;
-      --border: #d8dee6;
-      --accent: #1b4f72;
-      --accent-hover: #163f5c;
-      --warn-bg: #fff8e6;
-      --warn-border: #e6c35c;
-      --warn-ink: #5c4a00;
-      --ok-bg: #eef7f1;
-      --ok-border: #8fbf9f;
-      --err-bg: #fdecea;
-      --err-border: #e0a8a2;
-      --err-ink: #6b1d16;
-      --radius: 12px;
-      --shadow: 0 1px 3px rgba(26, 35, 50, 0.08), 0 8px 24px rgba(26, 35, 50, 0.06);
-      --font: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+      --teal: #0f766e;
+      --teal-600: #0d8f84;
+      --teal-300: #5eead4;
+      --teal-50: #ecfdf9;
+      --amber-50: #fff7e6;
+      --amber-line: #f2c46d;
+      --amber-ink: #6b4400;
+      --err-50: #fdeeee;
+      --err-line: #f0b4b4;
+      --err-ink: #8a1f1f;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --shadow-sm: 0 1px 2px rgba(15, 29, 51, 0.06);
+      --shadow: 0 1px 2px rgba(15, 29, 51, 0.05), 0 8px 24px -6px rgba(15, 29, 51, 0.12);
+      --shadow-lg: 0 2px 4px rgba(15, 29, 51, 0.06), 0 24px 48px -12px rgba(15, 29, 51, 0.25);
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+      --ease: cubic-bezier(.2, .7, .2, 1);
     }
-    * { box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
     body {
       margin: 0;
       font-family: var(--font);
       color: var(--ink);
       background: var(--bg);
-      line-height: 1.55;
+      line-height: 1.6;
       font-size: 16px;
+      -webkit-font-smoothing: antialiased;
     }
-    a { color: var(--accent); }
-    a:hover { color: var(--accent-hover); }
-    .wrap {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 1rem 1rem 3rem;
-    }
-    header h1 {
-      font-size: 1.55rem;
-      font-weight: 700;
-      margin: 0 0 0.35rem;
-      letter-spacing: -0.02em;
-    }
-    header .tag {
-      display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--muted);
-      background: #e8edf2;
-      padding: 0.2rem 0.55rem;
-      border-radius: 999px;
-      margin-bottom: 0.75rem;
-    }
-    header p.lead {
-      margin: 0 0 1rem;
-      color: var(--muted);
-      font-size: 1.02rem;
-    }
-    .banner {
-      background: var(--warn-bg);
-      border: 2px solid var(--warn-border);
-      color: var(--warn-ink);
-      border-radius: var(--radius);
-      padding: 0.9rem 1rem;
-      margin-bottom: 1.25rem;
-      font-weight: 600;
-    }
-    .banner a { color: var(--warn-ink); text-decoration: underline; }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 1.25rem;
-      margin-bottom: 1.25rem;
-    }
-    .card h2 {
-      margin: 0 0 0.75rem;
-      font-size: 1.15rem;
-    }
-    .card h3 {
-      margin: 1.1rem 0 0.45rem;
-      font-size: 1rem;
-    }
-    label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 0.35rem;
-    }
-    .hint {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin: 0 0 0.6rem;
-    }
-    .row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      align-items: stretch;
-    }
-    input[type="text"], select {
-      flex: 1 1 12rem;
-      min-width: 0;
-      padding: 0.7rem 0.85rem;
-      font-size: 1rem;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-family: inherit;
-      background: #fff;
-      color: var(--ink);
-    }
-    input[type="text"]:focus, select:focus {
-      outline: 2px solid var(--accent);
-      outline-offset: 1px;
-      border-color: var(--accent);
-    }
-    button, .btn {
-      appearance: none;
-      border: none;
-      cursor: pointer;
-      font-family: inherit;
-      font-size: 1rem;
-      font-weight: 600;
-      padding: 0.7rem 1.1rem;
-      border-radius: 8px;
-      background: var(--accent);
-      color: #fff;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.35rem;
-    }
-    button:hover, .btn:hover { background: var(--accent-hover); }
-    button:disabled { opacity: 0.55; cursor: not-allowed; }
-    button.secondary, .btn.secondary {
-      background: #fff;
-      color: var(--accent);
-      border: 1px solid var(--border);
-    }
-    button.secondary:hover, .btn.secondary:hover {
-      background: #f0f4f8;
-    }
-    .msg {
-      margin-top: 0.85rem;
-      padding: 0.75rem 0.9rem;
-      border-radius: 8px;
-      font-size: 0.95rem;
-    }
-    .msg.err {
-      background: var(--err-bg);
-      border: 1px solid var(--err-border);
-      color: var(--err-ink);
-    }
-    .msg.info {
-      background: #eef3f8;
-      border: 1px solid var(--border);
-      color: var(--ink);
-    }
+    a { color: var(--teal); text-underline-offset: 2px; }
+    a:hover { color: var(--navy-700); }
+    :focus-visible { outline: 3px solid var(--teal-300); outline-offset: 2px; border-radius: 6px; }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
     .hidden { display: none !important; }
-    .result-region {
-      font-size: 1.35rem;
-      font-weight: 700;
-      margin: 0 0 0.25rem;
-    }
-    .countdown {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--accent);
-      margin: 0.5rem 0 0;
-    }
-    .dates {
-      list-style: none;
-      padding: 0;
-      margin: 0.75rem 0 0;
-    }
-    .dates li {
-      padding: 0.55rem 0;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    .dates li:first-child { border-top: none; }
-    .dates .k { color: var(--muted); font-size: 0.92rem; }
-    .dates .v { font-weight: 600; }
-    .ok-box {
-      background: var(--ok-bg);
-      border: 1px solid var(--ok-border);
-      border-radius: 8px;
-      padding: 0.75rem 0.9rem;
-      margin-top: 0.85rem;
-      font-size: 0.95rem;
-    }
-    ul.check {
-      margin: 0.4rem 0 0;
-      padding-left: 1.2rem;
-    }
-    ul.check li { margin: 0.35rem 0; }
-    .sources {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-top: 0.75rem;
-    }
-    .sources a { word-break: break-word; }
-    .demand {
-      border-style: dashed;
-    }
-    .demand .choice {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin-top: 0.6rem;
-    }
-    footer {
-      margin-top: 1.5rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--border);
-      font-size: 0.88rem;
-      color: var(--muted);
-    }
-    footer .banner {
-      font-size: 0.92rem;
-      margin-bottom: 1rem;
-    }
-    footer ul { padding-left: 1.15rem; margin: 0.4rem 0 0.8rem; }
-
-    .tight-top { margin-top: 0; }
-    .row-gap { margin-top: 1rem; }
-    .faq details {
-      border-top: 1px solid var(--border);
-      padding: 0.75rem 0;
-    }
-    .faq details:first-of-type { border-top: none; }
-    .faq summary {
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .faq details p {
-      margin: 0.5rem 0 0;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
     .sr-only {
-      position: absolute;
-      width: 1px; height: 1px;
-      padding: 0; margin: -1px;
-      overflow: hidden; clip: rect(0,0,0,0);
-      border: 0;
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
     }
-  </style>
+
+    /* Notice bar */
+    .notice {
+      background: var(--amber-50);
+      border-bottom: 1px solid var(--amber-line);
+      color: var(--amber-ink);
+      font-size: 0.9rem;
+    }
+    .notice .container { display: flex; gap: 10px; align-items: flex-start; padding-top: 10px; padding-bottom: 10px; }
+    .notice svg { flex: 0 0 auto; margin-top: 2px; }
+    .notice a { color: var(--amber-ink); font-weight: 600; }
+    .notice strong { font-weight: 700; }
+
+    /* Top bar + hero */
+    .hero {
+      background:
+        radial-gradient(900px 400px at 85% -10%, rgba(94, 234, 212, 0.18), transparent 60%),
+        radial-gradient(700px 360px at -10% 110%, rgba(56, 120, 220, 0.25), transparent 60%),
+        linear-gradient(180deg, var(--navy-900), var(--navy-800));
+      color: #fff;
+      padding-bottom: 72px;
+    }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 0; }
+    .brand { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; font-weight: 700; letter-spacing: -0.01em; }
+    .brand:hover { color: #fff; }
+    .brand-mark {
+      width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center;
+      background: linear-gradient(135deg, var(--teal-600), #2563eb);
+      box-shadow: 0 6px 16px -6px rgba(13, 143, 132, 0.8);
+    }
+    .pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.02em;
+      color: #d5f5ef; background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.16);
+      padding: 5px 11px; border-radius: 999px;
+    }
+    .pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal-300); }
+    .hero-inner { padding-top: 36px; max-width: 760px; }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.1rem);
+      line-height: 1.1; letter-spacing: -0.03em; margin: 16px 0 14px; font-weight: 800;
+    }
+    .hero h1 .accent { color: var(--teal-300); }
+    .hero .sub { font-size: clamp(1.02rem, 2.2vw, 1.18rem); color: #c9d5e8; margin: 0 0 28px; max-width: 640px; }
+
+    .search {
+      background: #fff; color: var(--ink);
+      border-radius: 18px; padding: 10px; box-shadow: var(--shadow-lg);
+      display: flex; gap: 8px; align-items: stretch;
+    }
+    .search .field { position: relative; flex: 1 1 auto; display: flex; align-items: center; }
+    .search .field svg { position: absolute; left: 14px; color: var(--muted); pointer-events: none; }
+    .search input {
+      width: 100%; border: 0; outline: 0; background: transparent;
+      font: inherit; font-size: 1.15rem; font-weight: 600; letter-spacing: 0.02em;
+      padding: 16px 14px 16px 46px; color: var(--ink); border-radius: 12px; text-transform: uppercase;
+    }
+    .search input::placeholder { color: #8391a8; font-weight: 500; text-transform: none; letter-spacing: 0; }
+    .search:focus-within { box-shadow: var(--shadow-lg), 0 0 0 4px rgba(94, 234, 212, 0.45); }
+    .search-help { color: #c9d5e8; font-size: 0.92rem; margin: 12px 4px 0; }
+    .search-help strong { color: #fff; }
+
+    .btn {
+      appearance: none; border: 0; cursor: pointer; text-decoration: none;
+      font: inherit; font-weight: 700; font-size: 1rem;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 13px 20px; border-radius: 12px;
+      background: var(--teal); color: #fff;
+      box-shadow: 0 6px 16px -8px rgba(15, 118, 110, 0.9);
+      transition: transform .15s var(--ease), background-color .15s var(--ease), box-shadow .15s var(--ease);
+    }
+    .btn:hover { background: #0b5f58; color: #fff; transform: translateY(-1px); box-shadow: 0 10px 22px -10px rgba(15, 118, 110, 0.9); }
+    .btn:active { transform: translateY(0); }
+    .btn:disabled { opacity: .7; cursor: progress; transform: none; }
+    .btn-lg { padding: 0 26px; font-size: 1.05rem; border-radius: 12px; min-height: 56px; }
+    .btn-ghost {
+      background: #fff; color: var(--navy-800); border: 1px solid var(--line); box-shadow: var(--shadow-sm);
+    }
+    .btn-ghost:hover { background: #f1f5fa; color: var(--navy-900); box-shadow: var(--shadow-sm); }
+
+    .alt-region { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; color: #c9d5e8; font-size: 0.92rem; }
+    .alt-region select {
+      font: inherit; font-size: 0.95rem; color: #fff; background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.22); border-radius: 10px; padding: 9px 12px; min-width: 210px;
+    }
+    .alt-region select option { color: var(--ink); }
+    .alt-region .btn-ghost { padding: 9px 14px; font-size: 0.92rem; }
+
+    .msg { margin-top: 14px; padding: 12px 14px; border-radius: 12px; font-size: 0.95rem; font-weight: 500; }
+    .msg.err { background: var(--err-50); border: 1px solid var(--err-line); color: var(--err-ink); }
+    .msg.info { background: var(--teal-50); border: 1px solid #a7e3d9; color: #0b4f49; }
+
+    main { margin-top: -44px; position: relative; }
+    .section { margin: 0 0 28px; }
+    .card {
+      background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: 28px;
+    }
+    .section-head { margin: 52px 0 18px; }
+    .section-head h2 { font-size: clamp(1.4rem, 3vw, 1.85rem); letter-spacing: -0.02em; margin: 0 0 6px; line-height: 1.2; }
+    .section-head p { margin: 0; color: var(--muted); max-width: 680px; }
+    .eyebrow { display: inline-block; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); margin-bottom: 6px; }
+
+    /* Result card */
+    .result { border-top: 4px solid var(--teal); animation: rise .45s var(--ease); }
+    @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    .result-top { display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; align-items: flex-start; }
+    .result-label { margin: 0; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--teal); }
+    .result-region { font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 800; letter-spacing: -0.02em; margin: 2px 0 2px; line-height: 1.15; }
+    .result-note { margin: 0; color: var(--muted); font-size: 0.93rem; }
+    .countdown-box {
+      background: linear-gradient(160deg, var(--navy-800), var(--navy-700)); color: #fff;
+      border-radius: 14px; padding: 16px 22px; min-width: 200px; text-align: right;
+    }
+    .cd-num { display: block; font-size: clamp(2.6rem, 7vw, 3.4rem); font-weight: 800; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+    .cd-label { display: block; font-size: 0.88rem; color: #c9d5e8; margin-top: 6px; }
+    .countdown-text { margin: 14px 0 0; font-weight: 600; color: var(--navy-700); }
+
+    .chips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 22px 0 0; padding: 0; list-style: none; }
+    .chip { border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; background: #fbfcfe; }
+    .chip .k { display: block; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+    .chip .v { display: block; font-size: 1.12rem; font-weight: 800; margin-top: 4px; letter-spacing: -0.01em; }
+    .chip.open { background: var(--teal-50); border-color: #a7e3d9; }
+    .chip.open .k { color: #0b5f58; }
+    .chip.deadline { background: #fff; border: 2px solid var(--navy-800); }
+
+    .timeline { margin: 26px 0 0; }
+    .timeline-title { font-size: 0.85rem; font-weight: 700; color: var(--muted); margin: 0 0 10px; }
+    .tl { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 6px; }
+    .tl li { position: relative; }
+    .tl .bar { display: block; height: 10px; border-radius: 999px; background: #e4eaf2; transition: background-color .2s var(--ease); }
+    .tl li.done .bar { background: #b7c4d6; }
+    .tl li.current .bar { background: linear-gradient(90deg, var(--teal), var(--teal-600)); box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.18); }
+    .tl .name { display: block; font-size: 0.72rem; line-height: 1.25; color: var(--muted); margin-top: 8px; }
+    .tl .when { display: block; font-size: 0.7rem; color: #66748c; }
+    .tl li.current .name { color: var(--ink); font-weight: 800; }
+    .tl li.current .when { color: var(--teal); font-weight: 700; }
+
+    .callout {
+      display: flex; gap: 12px; align-items: flex-start;
+      background: var(--teal-50); border: 1px solid #a7e3d9; color: #0b4f49;
+      border-radius: 12px; padding: 14px 16px; margin-top: 22px; font-size: 0.95rem;
+    }
+    .callout svg { flex: 0 0 auto; margin-top: 2px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .sources { font-size: 0.84rem; color: var(--muted); margin: 16px 0 0; }
+
+    /* How it works */
+    .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; list-style: none; margin: 0; padding: 0; counter-reset: step; }
+    .step { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow-sm); }
+    .step-n {
+      width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center;
+      background: var(--navy-800); color: #fff; font-weight: 800; margin-bottom: 12px;
+    }
+    .step h3 { margin: 0 0 4px; font-size: 1.05rem; }
+    .step p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+
+    /* Checklist cards */
+    .pdf-cta {
+      display: flex; flex-wrap: wrap; gap: 18px; align-items: center; justify-content: space-between;
+      background: linear-gradient(135deg, var(--navy-800), var(--navy-700)); color: #fff;
+      border-radius: var(--radius); padding: 22px 24px; margin-bottom: 18px; box-shadow: var(--shadow);
+    }
+    .pdf-cta h3 { margin: 0 0 4px; font-size: 1.15rem; }
+    .pdf-cta p { margin: 0; color: #c9d5e8; font-size: 0.93rem; max-width: 560px; }
+    .pdf-cta .btn { background: var(--teal-300); color: var(--navy-900); box-shadow: none; }
+    .pdf-cta .btn:hover { background: #99f6e4; color: var(--navy-900); }
+
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .icard {
+      background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 22px;
+      box-shadow: var(--shadow-sm); transition: box-shadow .2s var(--ease), transform .2s var(--ease), border-color .2s var(--ease);
+    }
+    .icard:hover { box-shadow: var(--shadow); transform: translateY(-2px); border-color: #cfd8e5; }
+    .icard.wide { grid-column: 1 / -1; }
+    .icard-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .icon {
+      width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; flex: 0 0 auto;
+      background: var(--teal-50); color: var(--teal);
+    }
+    .icon.navy { background: #e8eef8; color: var(--navy-700); }
+    .icon.warn { background: #fff1e6; color: #a14a00; }
+    .icard h3 { margin: 0; font-size: 1.08rem; letter-spacing: -0.01em; }
+    .icard ul { margin: 0; padding-left: 0; list-style: none; }
+    .icard li { position: relative; padding-left: 26px; margin: 8px 0; font-size: 0.96rem; }
+    .icard li::before {
+      content: ""; position: absolute; left: 0; top: 0.35em; width: 16px; height: 16px; border-radius: 50%;
+      background: var(--teal-50) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.2l2.4 2.3L12 5' fill='none' stroke='%230f766e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat;
+      border: 1px solid #a7e3d9;
+    }
+    .doc-cols { columns: 2; column-gap: 28px; }
+    .doc-cols li { break-inside: avoid; }
+    .fee-big { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin: 2px 0 2px; color: var(--navy-800); }
+    .fee-big small { font-size: 0.95rem; font-weight: 600; color: var(--muted); letter-spacing: 0; }
+
+    /* FAQ */
+    .faq { padding: 6px 24px; }
+    .faq details { border-top: 1px solid var(--line); }
+    .faq details:first-of-type { border-top: 0; }
+    .faq summary {
+      list-style: none; cursor: pointer; font-weight: 700; padding: 18px 36px 18px 0; position: relative;
+      transition: color .15s var(--ease);
+    }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after {
+      content: ""; position: absolute; right: 4px; top: 50%; width: 10px; height: 10px; margin-top: -7px;
+      border-right: 2.5px solid var(--teal); border-bottom: 2.5px solid var(--teal);
+      transform: rotate(45deg); transition: transform .2s var(--ease);
+    }
+    .faq details[open] summary::after { transform: rotate(-135deg); margin-top: -2px; }
+    .faq summary:hover { color: var(--teal); }
+    .faq details p { margin: 0 0 18px; color: var(--muted); }
+
+    /* Demand */
+    .demand { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; border-style: dashed; }
+    .demand h2 { font-size: 1.15rem; margin: 0 0 2px; }
+    .demand p { margin: 0; color: var(--muted); }
+    .choice { display: flex; gap: 10px; }
+    .choice .btn { min-width: 84px; }
+
+    /* Footer */
+    footer.site { background: var(--navy-900); color: #c9d5e8; margin-top: 64px; padding: 44px 0 32px; font-size: 0.92rem; }
+    footer.site a { color: #a7f3e6; }
+    footer.site a:hover { color: #fff; }
+    .foot-notice {
+      background: rgba(242, 196, 109, 0.12); border: 1px solid rgba(242, 196, 109, 0.5); color: #fde7b8;
+      border-radius: 12px; padding: 14px 16px; margin-bottom: 28px; font-weight: 600;
+    }
+    .foot-notice a { color: #ffe3a3; }
+    .foot-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 32px; }
+    .foot-grid h2 { color: #fff; font-size: 0.95rem; margin: 0 0 10px; letter-spacing: 0.01em; }
+    .foot-grid p { margin: 0 0 10px; }
+    .foot-grid ul { list-style: none; padding: 0; margin: 0; }
+    .foot-grid li { margin: 0 0 8px; }
+    .foot-bottom { border-top: 1px solid rgba(255,255,255,0.1); margin-top: 28px; padding-top: 18px; font-size: 0.85rem; color: #9fb0c9; display: flex; flex-wrap: wrap; gap: 8px 18px; }
+
+    @media (max-width: 860px) {
+      .tl { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 14px; }
+      .steps { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: 1fr; }
+      .foot-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .container { padding: 0 16px; }
+      .hero { padding-bottom: 60px; }
+      .hero-inner { padding-top: 18px; }
+      .search { flex-direction: column; padding: 8px; }
+      .search .btn-lg { width: 100%; }
+      .card { padding: 20px; }
+      .chips { grid-template-columns: 1fr; }
+      .countdown-box { text-align: left; width: 100%; }
+      .doc-cols { columns: 1; }
+      .demand { flex-direction: column; align-items: flex-start; }
+      .topbar .pill { display: none; }
+      .alt-region select { flex: 1 1 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+      .btn:hover, .icard:hover { transform: none; }
+    }
+  
+</style>
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -352,66 +409,96 @@
   </script>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <span class="tag">Unofficial · England only</span>
-      <h1>Landlord Register Deadline Checker</h1>
-      <p class="lead">Find your region’s window for the new private rented sector landlord register (“Register your rental property” / PRS Database).</p>
-    </header>
-
-    <div class="banner" role="note">
-      This is not an official UK government website and is not linked to the government. It is not the official register. Register only at
+  <div class="notice" role="note">
+    <div class="container">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+      <p class="sr-only">Notice:</p>
+      <span><strong>This is not an official UK government website and is not linked to the government. It is not the official register.</strong> Register only at
       <a href="https://www.gov.uk/government/news/stronger-protections-and-greater-confidence-for-renters" target="_blank" rel="noopener">gov.uk</a>
       and the official
-      <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/" target="_blank" rel="noopener">Get ready guidance</a>.
+      <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/" target="_blank" rel="noopener">Get ready guidance</a>.</span>
     </div>
+  </div>
 
-    <section class="card" aria-labelledby="lookup-h">
-      <h2 id="lookup-h">Check by postcode</h2>
-      <p class="hint">Use the rental <strong>property’s</strong> postcode in England (not where you live).</p>
-      <form id="pc-form" novalidate>
-        <label for="postcode">Postcode</label>
-        <div class="row">
-          <input id="postcode" type="text" name="postcode" autocomplete="postal-code" placeholder="e.g. SW1A 1AA" inputmode="text" maxlength="12" />
-          <button type="submit" id="lookup-btn">Look up</button>
+  <header class="hero">
+    <div class="container">
+      <div class="topbar">
+        <a class="brand" href="./" aria-label="Landlord Register Deadline Checker, unofficial, home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+          </span>
+          <span>Landlord Register Deadline Checker</span>
+        </a>
+        <span class="pill"><span class="dot" aria-hidden="true"></span>Unofficial · England only</span>
+      </div>
+
+      <div class="hero-inner">
+        <span class="pill"><span class="dot" aria-hidden="true"></span>“Register your rental property” / PRS Database</span>
+        <h1>When must you join the <span class="accent">landlord register?</span></h1>
+        <p class="sub">Find your region’s window for the new private rented sector landlord register, with dates checked against gov.uk.</p>
+
+        <form id="pc-form" novalidate aria-labelledby="lookup-h">
+          <h2 id="lookup-h" class="sr-only">Check by postcode</h2>
+          <label for="postcode" class="sr-only">Rental property postcode</label>
+          <div class="search">
+            <div class="field">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+              <input id="postcode" type="text" name="postcode" autocomplete="postal-code" placeholder="Enter a postcode, e.g. SW1A 1AA" inputmode="text" maxlength="12" />
+            </div>
+            <button type="submit" id="lookup-btn" class="btn btn-lg">Look up</button>
+          </div>
+        </form>
+        <p class="search-help">Use the rental <strong>property’s</strong> postcode in England (not where you live).</p>
+        <div id="pc-msg" class="msg hidden" role="status" aria-live="polite"></div>
+
+        <div class="alt-region">
+          <label for="region-select">Or pick your region:</label>
+          <select id="region-select">
+            <option value="">Select a region…</option>
+          </select>
+          <button type="button" class="btn btn-ghost" id="region-btn">Show dates</button>
         </div>
-      </form>
-      <div id="pc-msg" class="msg hidden" role="status" aria-live="polite"></div>
-
-      <h3>Or pick your region</h3>
-      <p class="hint">Fallback if the postcode lookup fails or you already know the region.</p>
-      <label for="region-select" class="sr-only">Region</label>
-      <div class="row">
-        <select id="region-select">
-          <option value="">Select a region…</option>
-        </select>
-        <button type="button" class="secondary" id="region-btn">Show dates</button>
       </div>
-    </section>
+    </div>
+  </header>
 
-    <section id="result" class="card hidden" aria-live="polite">
-      <p class="result-region" id="region-name"></p>
-      <p class="hint tight-top" id="region-note"></p>
-      <ul class="dates">
-        <li>
-          <span class="k">Registration opens</span>
-          <span class="v" id="date-open"></span>
-        </li>
-        <li>
-          <span class="k">Deadline to register</span>
-          <span class="v" id="date-deadline"></span>
-        </li>
-        <li>
-          <span class="k">England-wide final date (actively letting)</span>
-          <span class="v" id="date-final"></span>
-        </li>
+  <main class="container">
+    <section id="result" class="section card result hidden" aria-live="polite" aria-labelledby="result-h">
+      <h2 id="result-h" class="sr-only">Your registration window</h2>
+      <div class="result-top">
+        <div>
+          <p class="result-label">Your region</p>
+          <p class="result-region" id="region-name"></p>
+          <p class="result-note" id="region-note"></p>
+        </div>
+        <div class="countdown-box">
+          <span class="cd-num" id="cd-num">–</span>
+          <span class="cd-label" id="cd-label">days</span>
+        </div>
+      </div>
+
+      <ul class="chips">
+        <li class="chip open"><span class="k">Registration opens</span><span class="v" id="date-open"></span></li>
+        <li class="chip deadline"><span class="k">Deadline to register</span><span class="v" id="date-deadline"></span></li>
+        <li class="chip"><span class="k">England-wide final date (actively letting)</span><span class="v" id="date-final"></span></li>
       </ul>
-      <p class="countdown" id="countdown"></p>
-      <div class="ok-box">
-        You can register from 15 December 2026 onwards if you wish, including properties in other regions — but you <strong>must</strong> register before your property’s regional deadline.
+      <p class="countdown-text" id="countdown"></p>
+
+      <div class="timeline">
+        <p class="timeline-title" id="tl-title">Regional rollout, 9 regions (your region highlighted)</p>
+        <ol class="tl" id="timeline" aria-labelledby="tl-title"></ol>
       </div>
-      <div class="row row-gap">
-        <button type="button" id="ics-btn">Download calendar (.ics)</button>
+
+      <div class="callout">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <span>You can register from 15 December 2026 onwards if you wish, including properties in other regions — but you <strong>must</strong> register before your property’s regional deadline.</span>
+      </div>
+      <div class="actions">
+        <button type="button" id="ics-btn" class="btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18M12 14v4M10 16h4"/></svg>
+          Download calendar (.ics)
+        </button>
+        <a class="btn btn-ghost" href="landlord-register-checklist.pdf" download>Download the free checklist (PDF)</a>
       </div>
       <p class="sources">
         Dates:
@@ -421,130 +508,198 @@
       </p>
     </section>
 
-    <section class="card" aria-labelledby="need-h">
-      <h2 id="need-h">What you’ll need</h2>
-      <p class="hint">Based on verified official guidance (checked 19 Oct 2026). Not a complete legal checklist.</p>
-      <p class="row">
-        <a class="btn" href="landlord-register-checklist.pdf" download>Download the free checklist (PDF)</a>
-      </p>
-      <p class="hint">2 A4 pages, printable, no sign-up. Includes all regional windows, documents to have ready and a “my properties” tick table.</p>
-      <h3>Who must register</h3>
-      <ul class="check">
-        <li>Landlords of <strong>assured or regulated</strong> tenancies in England — register yourself and each let property.</li>
-        <li>Initially applies to properties <strong>under let</strong> (or that become occupied during rollout). Unoccupied / pre-marketing registration comes later under future rules.</li>
-        <li><strong>Exempt:</strong> supported exempt accommodation (Supported Housing (Regulatory Oversight) Act 2023, s.12).</li>
-        <li>Joint landlords each make a landlord entry; they share one dwelling entry.</li>
-      </ul>
-      <p class="sources">
-        Sources:
-        <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/" target="_blank" rel="noopener">Housing Hub</a>,
-        <a href="https://www.gov.uk/government/publications/guide-to-the-renters-rights-act/guide-to-the-renters-rights-act" target="_blank" rel="noopener">Guide to the Renters’ Rights Act</a>.
-      </p>
-
-      <h3>Documents &amp; details</h3>
-      <ul class="check">
-        <li>GOV.UK One Login</li>
-        <li>Your details (or organisation details if you’re a company/trust)</li>
-        <li>Property address, bedrooms, ownership/dwelling type, whether under let</li>
-        <li>Occupants / households, licence info (HMO / selective / additional) if relevant</li>
-        <li>Rent amount &amp; frequency; furnished status</li>
-        <li><strong>Gas safety</strong> record (if the property has a gas supply)</li>
-        <li><strong>EICR</strong> (or appropriate EIC) and expiry date</li>
-        <li><strong>EPC</strong> where you were required to give one to the current tenant (plus MEES exemption info if below minimum)</li>
-      </ul>
-      <p class="sources">
-        Source:
-        <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/" target="_blank" rel="noopener">Housing Hub – information you’ll be asked to provide</a>.
-        Deposit protection is a separate legal duty — it is <strong>not</strong> listed as a database registration upload on that page.
-      </p>
-
-      <h3>Fee</h3>
-      <ul class="check">
-        <li><strong>£65 per property per year</strong>, renewed annually. During the regional rollout the fee is <strong>pro-rated</strong> so early registrants don’t pay more.</li>
-      </ul>
-      <p class="sources">
-        Source:
-        <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/" target="_blank" rel="noopener">Housing Hub</a>
-        (the SI lets the database operator set the fee; £65 is stated on Housing Hub).
-      </p>
-
-      <h3>Agents</h3>
-      <ul class="check">
-        <li>You (the landlord) must <strong>start</strong> the registration. An agent or property manager may upload <strong>certain</strong> information on your behalf. You remain responsible for the required information.</li>
-      </ul>
-      <p class="sources">
-        Source:
-        <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/" target="_blank" rel="noopener">Housing Hub FAQ</a>.
-      </p>
-
-      <h3>Penalties if you don’t register</h3>
-      <ul class="check">
-        <li>Civil penalty up to <strong>£7,000</strong> for letting or advertising without registration.</li>
-        <li>Up to <strong>£40,000</strong> (or criminal prosecution) for repeated breaches or serious offences such as fraudulent information.</li>
-        <li>While in breach you generally cannot get a possession order (except anti-social behaviour grounds 7A / 14).</li>
-        <li>Rent repayment orders can apply for continued failure after a penalty, or for false information to the database (up to 24 months’ rent).</li>
-      </ul>
-      <p class="sources">
-        Source:
-        <a href="https://www.gov.uk/government/publications/guide-to-the-renters-rights-act/guide-to-the-renters-rights-act" target="_blank" rel="noopener">Guide to the Renters’ Rights Act – PRS Database</a>.
-      </p>
+    <section class="section" aria-labelledby="how-h">
+      <div class="section-head">
+        <span class="eyebrow">How it works</span>
+        <h2 id="how-h">Three steps, under a minute</h2>
+      </div>
+      <ol class="steps">
+        <li class="step"><span class="step-n" aria-hidden="true">1</span><h3>Enter the property postcode</h3><p>We look up its English region with the free postcodes.io service. Nothing is stored.</p></li>
+        <li class="step"><span class="step-n" aria-hidden="true">2</span><h3>See your window</h3><p>Opening date, deadline and a live countdown, from the official regional table.</p></li>
+        <li class="step"><span class="step-n" aria-hidden="true">3</span><h3>Get ready</h3><p>Add reminders to your calendar and download the free printable checklist.</p></li>
+      </ol>
     </section>
 
+    <section class="section" aria-labelledby="need-h">
+      <div class="section-head">
+        <span class="eyebrow">Checklist</span>
+        <h2 id="need-h">What you’ll need</h2>
+        <p>Based on verified official guidance (checked 19 Oct 2026). Not a complete legal checklist.</p>
+      </div>
 
-    <section class="card faq" aria-labelledby="faq-h">
-      <h2 id="faq-h">Frequently asked questions</h2>
-      <details>
-        <summary>When does the London registration window open?</summary>
-        <p>London’s window opens on 15 July 2027 and the deadline to register is 14 October 2027 (Housing Hub / PRS Database Regulations 2026).</p>
-      </details>
-      <details>
-        <summary>When does registration start in England?</summary>
-        <p>The service launches on 15 December 2026, starting in the West Midlands, then rolls out region by region. All landlords actively letting property should be registered by 14 November 2027.</p>
-      </details>
-      <details>
-        <summary>How much is the registration fee?</summary>
-        <p>£65 per property per year, renewed annually. During the regional rollout the fee is pro-rated so early registrants don’t pay more (Housing Hub).</p>
-      </details>
-      <details>
-        <summary>Can a letting agent register for me?</summary>
-        <p>You (the landlord) must start the registration. An agent or property manager may upload certain information on your behalf; you remain responsible for the required information (Housing Hub).</p>
-      </details>
+      <div class="pdf-cta">
+        <div>
+          <h3>Free printable checklist</h3>
+          <p>2 A4 pages, printable, no sign-up. Includes all regional windows, documents to have ready and a “my properties” tick table.</p>
+        </div>
+        <a class="btn" href="landlord-register-checklist.pdf" download>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+          Download the free checklist (PDF)
+        </a>
+      </div>
+
+      <div class="grid">
+        <article class="icard">
+          <div class="icard-head">
+            <span class="icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></span>
+            <h3>Who must register</h3>
+          </div>
+          <ul>
+            <li>Landlords of <strong>assured or regulated</strong> tenancies in England — register yourself and each let property.</li>
+            <li>Initially applies to properties <strong>under let</strong> (or that become occupied during rollout). Unoccupied / pre-marketing registration comes later under future rules.</li>
+            <li><strong>Exempt:</strong> supported exempt accommodation (Supported Housing (Regulatory Oversight) Act 2023, s.12).</li>
+            <li>Joint landlords each make a landlord entry; they share one dwelling entry.</li>
+          </ul>
+          <p class="sources">
+            Sources:
+            <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/" target="_blank" rel="noopener">Housing Hub</a>,
+            <a href="https://www.gov.uk/government/publications/guide-to-the-renters-rights-act/guide-to-the-renters-rights-act" target="_blank" rel="noopener">Guide to the Renters’ Rights Act</a>.
+          </p>
+        </article>
+
+        <article class="icard">
+          <div class="icard-head">
+            <span class="icon navy" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="13" rx="3"/><path d="M2 10h20M6 15h4"/></svg></span>
+            <h3>Fee</h3>
+          </div>
+          <p class="fee-big">£65 <small>per property per year</small></p>
+          <ul>
+            <li><strong>£65 per property per year</strong>, renewed annually. During the regional rollout the fee is <strong>pro-rated</strong> so early registrants don’t pay more.</li>
+          </ul>
+          <p class="sources">
+            Source:
+            <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/" target="_blank" rel="noopener">Housing Hub</a>
+            (the SI lets the database operator set the fee; £65 is stated on Housing Hub).
+          </p>
+        </article>
+
+        <article class="icard wide">
+          <div class="icard-head">
+            <span class="icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13l2 2 4-4"/></svg></span>
+            <h3>Documents &amp; details</h3>
+          </div>
+          <ul class="doc-cols">
+            <li>GOV.UK One Login</li>
+            <li>Your details (or organisation details if you’re a company/trust)</li>
+            <li>Property address, bedrooms, ownership/dwelling type, whether under let</li>
+            <li>Occupants / households, licence info (HMO / selective / additional) if relevant</li>
+            <li>Rent amount &amp; frequency; furnished status</li>
+            <li><strong>Gas safety</strong> record (if the property has a gas supply)</li>
+            <li><strong>EICR</strong> (or appropriate EIC) and expiry date</li>
+            <li><strong>EPC</strong> where you were required to give one to the current tenant (plus MEES exemption info if below minimum)</li>
+          </ul>
+          <p class="sources">
+            Source:
+            <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/" target="_blank" rel="noopener">Housing Hub – information you’ll be asked to provide</a>.
+            Deposit protection is a separate legal duty — it is <strong>not</strong> listed as a database registration upload on that page.
+          </p>
+        </article>
+
+        <article class="icard">
+          <div class="icard-head">
+            <span class="icon navy" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-4-6"/></svg></span>
+            <h3>Agents</h3>
+          </div>
+          <ul>
+            <li>You (the landlord) must <strong>start</strong> the registration. An agent or property manager may upload <strong>certain</strong> information on your behalf. You remain responsible for the required information.</li>
+          </ul>
+          <p class="sources">
+            Source:
+            <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/" target="_blank" rel="noopener">Housing Hub FAQ</a>.
+          </p>
+        </article>
+
+        <article class="icard">
+          <div class="icard-head">
+            <span class="icon warn" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M12 8v5M12 16h.01"/></svg></span>
+            <h3>Penalties if you don’t register</h3>
+          </div>
+          <ul>
+            <li>Civil penalty up to <strong>£7,000</strong> for letting or advertising without registration.</li>
+            <li>Up to <strong>£40,000</strong> (or criminal prosecution) for repeated breaches or serious offences such as fraudulent information.</li>
+            <li>While in breach you generally cannot get a possession order (except anti-social behaviour grounds 7A / 14).</li>
+            <li>Rent repayment orders can apply for continued failure after a penalty, or for false information to the database (up to 24 months’ rent).</li>
+          </ul>
+          <p class="sources">
+            Source:
+            <a href="https://www.gov.uk/government/publications/guide-to-the-renters-rights-act/guide-to-the-renters-rights-act" target="_blank" rel="noopener">Guide to the Renters’ Rights Act – PRS Database</a>.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="faq-h">
+      <div class="section-head">
+        <span class="eyebrow">FAQ</span>
+        <h2 id="faq-h">Frequently asked questions</h2>
+      </div>
+      <div class="card faq">
+        <details>
+          <summary>When does the London registration window open?</summary>
+          <p>London’s window opens on 15 July 2027 and the deadline to register is 14 October 2027 (Housing Hub / PRS Database Regulations 2026).</p>
+        </details>
+        <details>
+          <summary>When does registration start in England?</summary>
+          <p>The service launches on 15 December 2026, starting in the West Midlands, then rolls out region by region. All landlords actively letting property should be registered by 14 November 2027.</p>
+        </details>
+        <details>
+          <summary>How much is the registration fee?</summary>
+          <p>£65 per property per year, renewed annually. During the regional rollout the fee is pro-rated so early registrants don’t pay more (Housing Hub).</p>
+        </details>
+        <details>
+          <summary>Can a letting agent register for me?</summary>
+          <p>You (the landlord) must start the registration. An agent or property manager may upload certain information on your behalf; you remain responsible for the required information (Housing Hub).</p>
+        </details>
+      </div>
     </section>
 
     <!-- Demand-test placeholder only: stores nothing, sends nothing. Wire up later if needed. -->
-    <section class="card demand" aria-labelledby="demand-h">
-      <h2 id="demand-h">Quick question</h2>
-      <p class="hint">Would you pay £29 for a step-by-step registration pack?</p>
+    <section class="section card demand" aria-labelledby="demand-h">
+      <div>
+        <h2 id="demand-h">Quick question</h2>
+        <p>Would you pay £29 for a step-by-step registration pack?</p>
+      </div>
       <div class="choice" id="demand-choice">
-        <button type="button" data-answer="yes">Yes</button>
-        <button type="button" class="secondary" data-answer="no">No</button>
+        <button type="button" class="btn" data-answer="yes">Yes</button>
+        <button type="button" class="btn btn-ghost" data-answer="no">No</button>
       </div>
       <div id="demand-thanks" class="msg info hidden" role="status">Thanks — noted for our own planning. Nothing was saved or sent.</div>
     </section>
+  </main>
 
-    <footer>
-      <div class="banner" role="note">
+  <footer class="site">
+    <div class="container">
+      <div class="foot-notice" role="note">
         This is not an official UK government website and is not linked to the government. It is not the official register. Register only at
         <a href="https://www.gov.uk/government/news/stronger-protections-and-greater-confidence-for-renters" target="_blank" rel="noopener">gov.uk</a>
         /
         <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/" target="_blank" rel="noopener">Housing Hub</a>.
       </div>
-      <p><strong>Landlord Register Deadline Checker</strong> (unofficial) — general information only, not legal advice. Always check official sources before acting.</p>
-      <p>Dates and figures checked against gov.uk / Housing Hub / legislation.gov.uk on <strong>19 October 2026</strong>.</p>
-      <p>
-        Contains public sector information licensed under the
-        <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank" rel="noopener">Open Government Licence v3.0</a>.
-      </p>
-      <p>Key official links:</p>
-      <ul>
-        <li><a href="https://www.gov.uk/government/news/stronger-protections-and-greater-confidence-for-renters" target="_blank" rel="noopener">GOV.UK: Stronger protections… (rollout announcement)</a></li>
-        <li><a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/" target="_blank" rel="noopener">Housing Hub: Get ready to register</a></li>
-        <li><a href="https://www.gov.uk/government/publications/guide-to-the-renters-rights-act/guide-to-the-renters-rights-act" target="_blank" rel="noopener">Guide to the Renters’ Rights Act</a></li>
-        <li><a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861" target="_blank" rel="noopener">The Private Rented Sector Database Regulations 2026</a></li>
-      </ul>
-      <p>No cookies · no analytics · no sign-up · nothing stored on a server.</p>
-    </footer>
-  </div>
+      <div class="foot-grid">
+        <div>
+          <h2>Landlord Register Deadline Checker (unofficial)</h2>
+          <p><strong>Landlord Register Deadline Checker</strong> (unofficial) — general information only, not legal advice. Always check official sources before acting.</p>
+          <p>Dates and figures checked against gov.uk / Housing Hub / legislation.gov.uk on <strong>19 October 2026</strong>.</p>
+          <p>
+            Contains public sector information licensed under the
+            <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank" rel="noopener">Open Government Licence v3.0</a>.
+          </p>
+        </div>
+        <div>
+          <h2>Key official links</h2>
+          <ul>
+            <li><a href="https://www.gov.uk/government/news/stronger-protections-and-greater-confidence-for-renters" target="_blank" rel="noopener">GOV.UK: Stronger protections… (rollout announcement)</a></li>
+            <li><a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/" target="_blank" rel="noopener">Housing Hub: Get ready to register</a></li>
+            <li><a href="https://www.gov.uk/government/publications/guide-to-the-renters-rights-act/guide-to-the-renters-rights-act" target="_blank" rel="noopener">Guide to the Renters’ Rights Act</a></li>
+            <li><a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861" target="_blank" rel="noopener">The Private Rented Sector Database Regulations 2026</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>No cookies · no analytics · no sign-up · nothing stored on a server.</span>
+      </div>
+    </div>
+  </footer>
 
   <script>
 (function () {
@@ -637,6 +792,58 @@
     return parts.join(" · ");
   }
 
+  function shortMonth(iso) {
+    var p = iso.split("-");
+    var d = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2]));
+    return d.toLocaleDateString("en-GB", { month: "short", year: "numeric", timeZone: "UTC" });
+  }
+
+  // Big numerals: days until the next milestone for this region.
+  function renderBigCountdown(region) {
+    var openDays = daysUntil(region.open);
+    var deadDays = daysUntil(region.deadline);
+    var num = document.getElementById("cd-num");
+    var label = document.getElementById("cd-label");
+    if (openDays > 0) {
+      num.textContent = String(openDays);
+      label.textContent = (openDays === 1 ? "day" : "days") + " until your window opens";
+    } else if (deadDays >= 0) {
+      num.textContent = String(deadDays);
+      label.textContent = (deadDays === 1 ? "day" : "days") + " left to register";
+    } else {
+      num.textContent = "0";
+      label.textContent = "days left: regional deadline has passed";
+    }
+  }
+
+  // 9-region rollout bar, built with createElement/textContent only.
+  function renderTimeline(region) {
+    var list = document.getElementById("timeline");
+    while (list.firstChild) list.removeChild(list.firstChild);
+    REGIONS.forEach(function (r) {
+      var li = document.createElement("li");
+      if (r.key === region.key) {
+        li.className = "current";
+        li.setAttribute("aria-current", "true");
+      } else if (daysUntil(r.deadline) < 0) {
+        li.className = "done";
+      }
+      var bar = document.createElement("span");
+      bar.className = "bar";
+      bar.setAttribute("aria-hidden", "true");
+      var name = document.createElement("span");
+      name.className = "name";
+      name.textContent = r.key;
+      var when = document.createElement("span");
+      when.className = "when";
+      when.textContent = "Opens " + shortMonth(r.open);
+      li.appendChild(bar);
+      li.appendChild(name);
+      li.appendChild(when);
+      list.appendChild(li);
+    });
+  }
+
   function showMsg(el, text, kind) {
     el.textContent = text;
     el.className = "msg " + kind;
@@ -656,12 +863,15 @@
     document.getElementById("date-deadline").textContent = formatDate(region.deadline);
     document.getElementById("date-final").textContent = formatDate(FINAL_DEADLINE);
     document.getElementById("countdown").textContent = countdownText(region);
+    renderBigCountdown(region);
+    renderTimeline(region);
     document.getElementById("result").classList.remove("hidden");
     select.value = region.key;
     if (countdownTimer) clearInterval(countdownTimer);
     countdownTimer = setInterval(function () {
       if (currentRegion) {
         document.getElementById("countdown").textContent = countdownText(currentRegion);
+        renderBigCountdown(currentRegion);
       }
     }, 60000);
     document.getElementById("result").scrollIntoView({ behavior: "smooth", block: "nearest" });
