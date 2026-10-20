@@ -1,0 +1,5 @@
+# TODO: replace https://aleborini.github.io/GrokLandlord/ with the real site origin (also in index.html and sitemap.xml)
+User-agent: *
+Allow: /
+
+Sitemap: https://aleborini.github.io/GrokLandlord/sitemap.xml
