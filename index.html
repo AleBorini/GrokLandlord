@@ -5,7 +5,7 @@
     <meta name="google-site-verification" content="yG7nudlYRdJyO4dOfhEAPFRUHk_4l7CtLF1yjLC_NiQ" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- TODO: replace https://aleborini.github.io/GrokLandlord/ with the real site origin in: this file (og/twitter/canonical/JSON-LD), robots.txt, sitemap.xml -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.postcodes.io; script-src 'self' 'sha256-Te055Js/YFUVWYTeWsQYdmp4GdlPm+goegXWk6FsF7E='; style-src 'self' 'sha256-LWO4NUMlIZHY50irgJgnScpensLz0LPTTQFQ2jXBBOs='; img-src 'self' data:; base-uri 'none'; form-action 'none'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.postcodes.io; script-src 'self' 'sha256-Te055Js/YFUVWYTeWsQYdmp4GdlPm+goegXWk6FsF7E='; style-src 'self' 'sha256-afRKzqUbCMtKVNfTvEV+9bEZbF5zi5d2dr127aUBCSI='; img-src 'self' data:; base-uri 'none'; form-action 'none'" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>England Landlord Register Deadlines – Unofficial Checker</title>
   <meta name="description" content="Unofficial checker for England landlord register deadlines by postcode or region. Fee, checklist and windows. Not government — register only at gov.uk." />
@@ -334,8 +334,39 @@
       *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
       .btn:hover, .icard:hover { transform: none; }
     }
-  
-</style>
+
+    /* Shared sub-page + region styles */
+    .page-hero { padding-bottom: 72px; }
+    .page-hero .hero-inner { padding-top: 14px; }
+    .page-hero h1 { font-size: clamp(1.8rem, 4.4vw, 2.7rem); }
+    .crumbs { font-size: 0.88rem; color: #c9d5e8; margin: 0; }
+    .crumbs a { color: #a7f3e6; }
+    .crumbs a:hover { color: #fff; }
+    .prose p { margin: 0 0 12px; }
+    .prose h2 { font-size: 1.2rem; margin: 22px 0 8px; letter-spacing: -0.01em; }
+    .prose h2:first-child { margin-top: 0; }
+    .prose ul { margin: 0 0 12px; padding-left: 20px; }
+    .prose li { margin: 6px 0; }
+    .rgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; list-style: none; margin: 0; padding: 0; }
+    .rlink {
+      display: block; height: 100%; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px;
+      text-decoration: none; color: var(--ink); box-shadow: var(--shadow-sm);
+      transition: border-color .15s var(--ease), transform .15s var(--ease), box-shadow .15s var(--ease);
+    }
+    .rlink:hover { color: var(--ink); border-color: var(--teal); transform: translateY(-2px); box-shadow: var(--shadow); }
+    .rlink strong { display: block; font-size: 1.02rem; }
+    .rlink .rdates { display: block; color: var(--muted); font-size: 0.88rem; margin-top: 2px; }
+    .rlink .rgo { display: block; color: var(--teal); font-weight: 700; font-size: 0.85rem; margin-top: 8px; }
+    .councils { columns: 2; column-gap: 28px; margin: 0; padding-left: 20px; }
+    .councils li { break-inside: avoid; margin: 4px 0; }
+    .pager { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .static-chip-note { color: var(--muted); font-size: 0.9rem; margin: 10px 0 0; }
+    .foot-nav { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0 0 6px; padding: 0; list-style: none; }
+    .foot-nav a { font-weight: 600; }
+    .status-tag { display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; background: #fff1e6; color: #8a3d00; border: 1px solid #f2c46d; vertical-align: middle; margin-left: 6px; }
+    @media (max-width: 860px) { .rgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 600px) { .rgrid { grid-template-columns: 1fr; } .councils { columns: 1; } }
+  </style>
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -628,6 +659,25 @@
       </div>
     </section>
 
+    <section class="section" id="regions" aria-labelledby="regions-h">
+      <div class="section-head">
+        <span class="eyebrow">By region</span>
+        <h2 id="regions-h">Deadlines by region</h2>
+        <p>Each region has its own three-month window. Pick a region for its dates, the local authority areas it covers and what you’ll need.</p>
+      </div>
+      <ul class="rgrid">
+        <li><a class="rlink" href="regions/west-midlands/"><strong>West Midlands</strong><span class="rdates">15 December 2026 – 14 March 2027</span><span class="rgo">West Midlands deadline page →</span></a></li>
+        <li><a class="rlink" href="regions/east-of-england/"><strong>East of England</strong><span class="rdates">15 January 2027 – 14 April 2027</span><span class="rgo">East of England deadline page →</span></a></li>
+        <li><a class="rlink" href="regions/east-midlands/"><strong>East Midlands</strong><span class="rdates">15 February 2027 – 14 May 2027</span><span class="rgo">East Midlands deadline page →</span></a></li>
+        <li><a class="rlink" href="regions/south-east/"><strong>South East</strong><span class="rdates">15 March 2027 – 14 June 2027</span><span class="rgo">South East deadline page →</span></a></li>
+        <li><a class="rlink" href="regions/yorkshire-and-humber/"><strong>Yorkshire and Humber</strong><span class="rdates">15 April 2027 – 14 July 2027</span><span class="rgo">Yorkshire and Humber deadline page →</span></a></li>
+        <li><a class="rlink" href="regions/north-west/"><strong>North West</strong><span class="rdates">15 May 2027 – 14 August 2027</span><span class="rgo">North West deadline page →</span></a></li>
+        <li><a class="rlink" href="regions/north-east/"><strong>North East</strong><span class="rdates">15 June 2027 – 14 September 2027</span><span class="rgo">North East deadline page →</span></a></li>
+        <li><a class="rlink" href="regions/london/"><strong>London</strong><span class="rdates">15 July 2027 – 14 October 2027</span><span class="rgo">London deadline page →</span></a></li>
+        <li><a class="rlink" href="regions/south-west/"><strong>South West</strong><span class="rdates">15 August 2027 – 14 November 2027</span><span class="rgo">South West deadline page →</span></a></li>
+      </ul>
+    </section>
+
     <section class="section" aria-labelledby="faq-h">
       <div class="section-head">
         <span class="eyebrow">FAQ</span>
@@ -696,6 +746,14 @@
         </div>
       </div>
       <div class="foot-bottom">
+        <nav aria-label="Site">
+          <ul class="foot-nav">
+            <li><a href="">Home: postcode checker</a></li>
+            <li><a href="#regions">Deadlines by region</a></li>
+            <li><a href="about/">About this site</a></li>
+            <li><a href="privacy/">Privacy</a></li>
+          </ul>
+        </nav>
         <span>No cookies · no analytics · no sign-up · nothing stored on a server.</span>
       </div>
     </div>

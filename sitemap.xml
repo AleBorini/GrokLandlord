@@ -1,10 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- TODO: replace https://aleborini.github.io/GrokLandlord/ with the real site origin (also in index.html and robots.txt) -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://aleborini.github.io/GrokLandlord/</loc>
-    <lastmod>2026-10-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2026-10-20</lastmod>
+  </url>
+  <url>
+    <loc>https://aleborini.github.io/GrokLandlord/regions/west-midlands/</loc>
+    <lastmod>2026-10-20</lastmod>
+  </url>
+  <url>
+    <loc>https://aleborini.github.io/GrokLandlord/regions/east-of-england/</loc>
+    <lastmod>2026-10-20</lastmod>
+  </url>
+  <url>
+    <loc>https://aleborini.github.io/GrokLandlord/regions/east-midlands/</loc>
+    <lastmod>2026-10-20</lastmod>
+  </url>
+  <url>
+    <loc>https://aleborini.github.io/GrokLandlord/regions/south-east/</loc>
+    <lastmod>2026-10-20</lastmod>
+  </url>
+  <url>
+    <loc>https://aleborini.github.io/GrokLandlord/regions/yorkshire-and-humber/</loc>
+    <lastmod>2026-10-20</lastmod>
+  </url>
+  <url>
+    <loc>https://aleborini.github.io/GrokLandlord/regions/north-west/</loc>
+    <lastmod>2026-10-20</lastmod>
+  </url>
+  <url>
+    <loc>https://aleborini.github.io/GrokLandlord/regions/north-east/</loc>
+    <lastmod>2026-10-20</lastmod>
+  </url>
+  <url>
+    <loc>https://aleborini.github.io/GrokLandlord/regions/london/</loc>
+    <lastmod>2026-10-20</lastmod>
+  </url>
+  <url>
+    <loc>https://aleborini.github.io/GrokLandlord/regions/south-west/</loc>
+    <lastmod>2026-10-20</lastmod>
+  </url>
+  <url>
+    <loc>https://aleborini.github.io/GrokLandlord/about/</loc>
+    <lastmod>2026-10-20</lastmod>
+  </url>
+  <url>
+    <loc>https://aleborini.github.io/GrokLandlord/privacy/</loc>
+    <lastmod>2026-10-20</lastmod>
   </url>
 </urlset>
